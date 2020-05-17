@@ -1,4 +1,6 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -16,21 +18,22 @@ public class GamePanel extends JPanel implements ActionListener{
     final int END = 2;
     int currentState = MENU;
     Font titleFont;
-	JButton menutogame;
-	JButton gametoend;
-	JButton endtomenu;
+	JButton button;
 	Timer timer;
+	GameBoard gb;
 	
 	public GamePanel() {
-		this.menutogame = new JButton("CONTINUE");
-		menutogame.addActionListener(this);
-		this.add(menutogame);
-		this.gametoend = new JButton("END GAME");
-		gametoend.addActionListener(this);
-		this.endtomenu = new JButton("PLAY AGAIN");
-		endtomenu.addActionListener(this);
+		this.button = new JButton("CONTINUE");
+		button.addActionListener(this);
 		titleFont = new Font("Arial", Font.PLAIN, 50);
 		this.timer = new Timer(1000/60, this);
+		this.setLayout(new BorderLayout());
+		JPanel panel = new JPanel();
+		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		panel.add(button);
+		this.add(panel, BorderLayout.SOUTH);
+		startGame();
+		gb = new GameBoard();
 	}
 	
 	@Override
@@ -51,12 +54,15 @@ public class GamePanel extends JPanel implements ActionListener{
 		g.fillRect(0,0, Othello.WIDTH, Othello.HEIGHT);
 		g.setColor(Color.WHITE);
 		g.setFont(titleFont);
-		g.drawString("OTHELLO", 240, 200);
+		g.drawString("OTHELLO", 235, 200);
+		g.setFont(getFont());
+		g.drawString("Press CONTINUE to start", 268, 250);
 	}
 	
 	void drawGameState(Graphics g) {
-		g.setColor(Color.BLUE);
+		g.setColor(new Color (0, 0, 102));
 		g.fillRect(0,0, Othello.WIDTH, Othello.HEIGHT);
+		gb.draw(g);
 	}
 	
 	void drawEndState(Graphics g) {
@@ -73,21 +79,22 @@ public class GamePanel extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		if (arg0.getSource() == menutogame) {
+		if (arg0.getSource() == button && currentState == MENU) {
 			currentState = GAME;
-			this.remove(menutogame);
-			this.add(gametoend);
+			button.setText("END GAME");
+			System.out.println(currentState);
 		}
-		else if (arg0.getSource() == gametoend) {
+	
+		else if (arg0.getSource() == button && currentState == GAME) {
 			currentState = END;
-			this.remove(gametoend);
-			this.add(endtomenu);
+			button.setText("PLAY AGAIN");
 		}
-		else if (arg0.getSource() == endtomenu) {
+		
+		else if (arg0.getSource() == button && currentState == END) {
 			currentState = MENU;
-			this.remove(endtomenu);
-			this.add(menutogame);
+			button.setText("CONTINUE");
 		}
+		
 		if(arg0.getSource() == timer) {
 			repaint();
 		}
