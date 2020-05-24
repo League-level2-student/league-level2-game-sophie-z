@@ -63,13 +63,17 @@ public class GamePanel extends JPanel implements ActionListener{
 		g.setColor(new Color (0, 0, 102));
 		g.fillRect(0,0, Othello.WIDTH, Othello.HEIGHT);
 		gb.draw(g);
+		//How to draw a specific piece: gb.board[0][1].pieceColor = "white";
 	}
 	
 	void drawEndState(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0,0, Othello.WIDTH, Othello.HEIGHT);
+		g.setColor(Color.WHITE);
 		g.setFont(titleFont);
 		g.drawString("GAME OVER", 220, 200);
+		g.setFont(getFont());
+		g.drawString("Press PLAY AGAIN to start another round", 250, 250);
 	}
 
 	void startGame() {
