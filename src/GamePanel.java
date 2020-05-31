@@ -6,12 +6,14 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class GamePanel extends JPanel implements ActionListener{
+public class GamePanel extends JPanel implements ActionListener, MouseListener{
 
 	final int MENU = 0;
     final int GAME = 1;
@@ -21,6 +23,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	JButton button;
 	Timer timer;
 	GameBoard gb;
+	String currentTurn;
 	
 	public GamePanel() {
 		this.button = new JButton("CONTINUE");
@@ -31,8 +34,10 @@ public class GamePanel extends JPanel implements ActionListener{
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panel.add(button);
+		panel.addMouseListener(this);
 		this.add(panel, BorderLayout.SOUTH);
 		startGame();
+		this.currentTurn = "black";
 		gb = new GameBoard();
 	}
 	
@@ -56,7 +61,7 @@ public class GamePanel extends JPanel implements ActionListener{
 		g.setFont(titleFont);
 		g.drawString("OTHELLO", 235, 200);
 		g.setFont(getFont());
-		g.drawString("Press CONTINUE to start", 268, 250);
+		g.drawString("Press CONTINUE to start", 272, 250);
 	}
 	
 	void drawGameState(Graphics g) {
@@ -102,5 +107,35 @@ public class GamePanel extends JPanel implements ActionListener{
 		if(arg0.getSource() == timer) {
 			repaint();
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }
