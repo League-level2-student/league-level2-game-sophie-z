@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 
 public class Othello {
 
-	JFrame frame;
+	static JFrame frame;
 	GamePanel gamepanel;
 	public static final int WIDTH = 720;
 	public static final int HEIGHT = 720;

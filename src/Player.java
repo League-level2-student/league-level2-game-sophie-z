@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Player {
@@ -9,8 +10,8 @@ public class Player {
 	}
 
 	void instructions(Graphics g) {
-		g.drawString("Player 1 please place a piece.", 30, 30);
-		
+		g.setColor(Color.WHITE);
+		g.drawString("Player 1 please click to place a piece.", 260, 30);
 	}
 	
 }

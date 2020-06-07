@@ -24,6 +24,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 	Timer timer;
 	GameBoard gb;
 	String currentTurn;
+	Player player;
 	
 	public GamePanel() {
 		this.button = new JButton("CONTINUE");
@@ -34,10 +35,11 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panel.add(button);
-		panel.addMouseListener(this);
+		Othello.frame.addMouseListener(this);
 		this.add(panel, BorderLayout.SOUTH);
 		startGame();
 		this.currentTurn = "black";
+		this.player = new Player(false);
 		gb = new GameBoard();
 	}
 	
@@ -69,6 +71,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		g.fillRect(0,0, Othello.WIDTH, Othello.HEIGHT);
 		gb.draw(g);
 		//How to draw a specific piece: gb.board[0][1].pieceColor = "white";
+		player.instructions(g);
 	}
 	
 	void drawEndState(Graphics g) {
@@ -130,7 +133,11 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+		int i = (arg0.getX()-75)/70;
+		int j = (arg0.getY()-55)/70;
+		System.out.println("i:" + i);
+		System.out.println("j:" + j);
+		System.out.println(gb.board[i][j].pieceColor);
 	}
 
 	@Override
