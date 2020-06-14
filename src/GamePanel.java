@@ -3,11 +3,13 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -39,7 +41,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		this.add(panel, BorderLayout.SOUTH);
 		startGame();
 		this.currentTurn = "black";
-		this.player = new Player(false);
+		this.player = new Player();
 		gb = new GameBoard();
 	}
 	
@@ -133,11 +135,35 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		int i = (arg0.getX()-75)/70;
-		int j = (arg0.getY()-55)/70;
+		int i = (arg0.getX()-85)/70;
+		int j = (arg0.getY()-85)/70;
 		System.out.println("i:" + i);
 		System.out.println("j:" + j);
 		System.out.println(gb.board[i][j].pieceColor);
+		checkPlay(i, j);
+	}
+	
+	void checkPlay(int i, int j) {
+		ArrayList<Point> points = new ArrayList<Point>();
+		String blackwhite = "";
+		if(player.currentPlayer==1) {
+			blackwhite = "white";
+		}
+		else if(player.currentPlayer==2) {
+			blackwhite = "black";
+		}
+		while(j>0) {
+				j--;
+				if(!gb.board[i][j].pieceColor.equals(blackwhite) && !gb.board[i][j].pieceColor.equals("")) {
+					points.add(new Point(i, j));
+			}
+				else {
+					break;
+			}
+		}
+		for(int x = 0; x<points.size(); x++) {
+			gb.board[(int) points.get(i).getX()][(int) points.get(i).getY()].pieceColor=blackwhite;
+		}
 	}
 
 	@Override

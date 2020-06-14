@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class GameBoard {
+public class GameBoard extends GamePanel{
 
 	Piece[][] board = new Piece[8][8];
 	int pieceSize = 70;
