@@ -155,7 +155,14 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 	void checkPlay(int i, int j) {
 		ArrayList<Point> points = new ArrayList<Point>();
 		String blackwhite = "";
-		
+		if(currentTurn.equals("white")) {
+			blackwhite = "white";
+			gb.board[i][j].setStatus("white");
+		}
+		else if(currentTurn.equals("black")) {
+			blackwhite = "black";
+			gb.board[i][j].setStatus("black");
+		}
 		while(j>0) {
 				j--;
 				if(!gb.board[i][j].empty.equals(blackwhite) && !gb.board[i][j].empty.equals("")) {
