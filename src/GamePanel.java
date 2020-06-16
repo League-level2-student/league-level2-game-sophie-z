@@ -29,10 +29,10 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 	Player player;
 	
 	public GamePanel() {
-		this.button = new JButton("CONTINUE");
+		button = new JButton("CONTINUE");
 		button.addActionListener(this);
 		titleFont = new Font("Arial", Font.PLAIN, 50);
-		this.timer = new Timer(1000/60, this);
+		timer = new Timer(1000/60, this);
 		this.setLayout(new BorderLayout());
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
