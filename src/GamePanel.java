@@ -71,9 +71,10 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 	void drawGameState(Graphics g) {
 		g.setColor(new Color (0, 0, 102));
 		g.fillRect(0,0, Othello.WIDTH, Othello.HEIGHT);
-		gb.draw(g);
+		
 		//How to draw a specific piece: gb.board[0][1].pieceColor = "white";
 		player.instructions(g);
+		gb.draw(g);
 	}
 	
 	void drawEndState(Graphics g) {
@@ -96,7 +97,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		if (arg0.getSource() == button && currentState == MENU) {
 			currentState = GAME;
 			button.setText("END GAME");
-			System.out.println(currentState);
+//			System.out.println(currentState);
 		}
 	
 		else if (arg0.getSource() == button && currentState == GAME) {
@@ -137,24 +138,27 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		// TODO Auto-generated method stub
 		int i = (arg0.getX()-85)/70;
 		int j = (arg0.getY()-85)/70;
-		System.out.println("i:" + i);
-		System.out.println("j:" + j);
-		System.out.println(gb.board[i][j].pieceColor);
+//		System.out.println("i:" + i);
+//		System.out.println("j:" + j);
+//		System.out.println(gb.board[i][j].empty);
 		checkPlay(i, j);
+		if(currentTurn.equals("white")) {
+			System.out.println("checkwhite");
+			currentTurn = "black";		
+		}
+		else if(currentTurn.equals("black")) {
+			System.out.println("checkblack");
+			currentTurn = "white";
+		}
 	}
 	
 	void checkPlay(int i, int j) {
 		ArrayList<Point> points = new ArrayList<Point>();
 		String blackwhite = "";
-		if(player.currentPlayer==1) {
-			blackwhite = "white";
-		}
-		else if(player.currentPlayer==2) {
-			blackwhite = "black";
-		}
+		
 		while(j>0) {
 				j--;
-				if(!gb.board[i][j].pieceColor.equals(blackwhite) && !gb.board[i][j].pieceColor.equals("")) {
+				if(!gb.board[i][j].empty.equals(blackwhite) && !gb.board[i][j].empty.equals("")) {
 					points.add(new Point(i, j));
 			}
 				else {
@@ -162,7 +166,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			}
 		}
 		for(int x = 0; x<points.size(); x++) {
-			gb.board[(int) points.get(i).getX()][(int) points.get(i).getY()].pieceColor=blackwhite;
+			gb.board[(int) points.get(i).getX()][(int) points.get(i).getY()].empty=blackwhite;
 		}
 	}
 

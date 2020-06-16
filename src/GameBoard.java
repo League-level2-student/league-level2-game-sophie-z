@@ -3,19 +3,20 @@ import java.awt.Graphics;
 
 public class GameBoard {
 
-	Piece[][] board = new Piece[8][8];
+	Square[][] board = new Square[8][8];
 	int pieceSize = 70;
+	int squareSize = 70;
 	
 	public GameBoard() {
 		for(int i = 0; i<board.length; i++) {
 			for(int j = 0; j<board[i].length; j++) {
-				board[i][j] = new Piece(i*pieceSize + 75, j*pieceSize + 55, pieceSize, "");
+				board[i][j] = new Square("empty", i*squareSize + 75, j*squareSize + 55, squareSize);
 			}
 		}
-		board[3][3].pieceColor = "white";
-		board[4][3].pieceColor = "black";
-		board[3][4].pieceColor = "black";
-		board[4][4].pieceColor = "white";
+		board[3][3].empty = "white";
+		board[4][3].empty = "black";
+		board[3][4].empty = "black";
+		board[4][4].empty = "white";
 	}
 	
 	void draw(Graphics g) {
