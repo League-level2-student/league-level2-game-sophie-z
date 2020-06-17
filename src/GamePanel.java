@@ -71,7 +71,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 	void drawGameState(Graphics g) {
 		g.setColor(new Color (0, 0, 102));
 		g.fillRect(0,0, Othello.WIDTH, Othello.HEIGHT);
-		
 		//How to draw a specific piece: gb.board[0][1].pieceColor = "white";
 		player.instructions(g);
 		gb.draw(g);
@@ -97,12 +96,12 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		if (arg0.getSource() == button && currentState == MENU) {
 			currentState = GAME;
 			button.setText("END GAME");
-//			System.out.println(currentState);
 		}
 	
 		else if (arg0.getSource() == button && currentState == GAME) {
 			currentState = END;
 			button.setText("PLAY AGAIN");
+			//NEED TO RESET BOARD HERE?
 		}
 		
 		else if (arg0.getSource() == button && currentState == END) {
@@ -133,25 +132,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		
 	}
 
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		int i = (arg0.getX()-85)/70;
-		int j = (arg0.getY()-85)/70;
-//		System.out.println("i:" + i);
-//		System.out.println("j:" + j);
-//		System.out.println(gb.board[i][j].empty);
-		checkPlay(i, j);
-		if(currentTurn.equals("white")) {
-			System.out.println("checkwhite");
-			currentTurn = "black";		
-		}
-		else if(currentTurn.equals("black")) {
-			System.out.println("checkblack");
-			currentTurn = "white";
-		}
-	}
-	
 	void checkPlay(int i, int j) {
 		ArrayList<Point> points = new ArrayList<Point>();
 		String blackwhite = "";
@@ -173,7 +153,26 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			}
 		}
 		for(int x = 0; x<points.size(); x++) {
-			gb.board[(int) points.get(i).getX()][(int) points.get(i).getY()].empty=blackwhite;
+			gb.board[(int) points.get(x).getX()][(int) points.get(x).getY()].empty = blackwhite;
+		}
+	}
+	
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		int i = (arg0.getX()-85)/70;
+		int j = (arg0.getY()-85)/70;
+		System.out.println("i:" + i);
+		System.out.println("j:" + j);
+		System.out.println(gb.board[i][j].empty);
+		checkPlay(i, j);
+		if(currentTurn.equals("white")) {
+			System.out.println("checkwhite");
+			currentTurn = "black";		
+		}
+		else if(currentTurn.equals("black")) {
+			System.out.println("checkblack");
+			currentTurn = "white";
 		}
 	}
 
