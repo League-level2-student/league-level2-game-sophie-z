@@ -4,7 +4,7 @@ import java.awt.Graphics;
 public class GameBoard {
 
 	Square[][] board = new Square[8][8];
-	int pieceSize = 70;
+	// pieceSize = 70;
 	int squareSize = 70;
 	
 	public GameBoard() {
