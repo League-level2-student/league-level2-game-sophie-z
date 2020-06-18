@@ -72,8 +72,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		g.setColor(new Color (0, 0, 102));
 		g.fillRect(0,0, Othello.WIDTH, Othello.HEIGHT);
 		//How to draw a specific piece/square: gb.board[0][1].empty = "white";
-		player.instructions(g);
-		gb.draw(g);
 		if(currentTurn.equals("white")) {
 			g.setColor(Color.WHITE);
 			g.drawString("Player 2 (white) please click to place a piece.", 245, 30);
@@ -82,6 +80,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			g.setColor(Color.WHITE);
 			g.drawString("Player 1 (black) please click to place a piece.", 245, 30);
 		}
+		gb.draw(g);
 	}
 	
 	void drawEndState(Graphics g) {

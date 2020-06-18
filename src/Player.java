@@ -6,9 +6,5 @@ public class Player {
 	public Player() {
 
 	}
-
-	void instructions(Graphics g) {
-		
-	}
 	
 }
