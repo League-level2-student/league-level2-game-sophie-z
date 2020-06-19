@@ -142,22 +142,15 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 	void checkPlay(int i, int j) {
 		ArrayList<Point> points = new ArrayList<Point>();
 		String blackwhite = "";
-		if(currentTurn.equals("white")) {
+		if(currentTurn.equals("white") && gb.board[i][j].empty.equals("empty")) {
+			System.out.println("white");
 			blackwhite = "white";
 			gb.board[i][j].setStatus("white");
 		}
-		else if(currentTurn.equals("black")) {
+		else if(currentTurn.equals("black") && gb.board[i][j].empty.equals("empty")) {
+			System.out.println("black");
 			blackwhite = "black";
 			gb.board[i][j].setStatus("black");
-		}
-		while(j>0) {
-				j--;
-				if(!gb.board[i][j].empty.equals(blackwhite) && !gb.board[i][j].empty.equals("")) {
-					points.add(new Point(i, j));
-			}
-				else {
-					break;
-			}
 		}
 		for(int x = 0; x<points.size(); x++) {
 			gb.board[(int) points.get(x).getX()][(int) points.get(x).getY()].empty = blackwhite;
@@ -173,11 +166,11 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		System.out.println("j:" + j);
 		System.out.println(gb.board[i][j].empty);
 		checkPlay(i, j);
-		if(currentTurn.equals("white")) {
+		if(currentTurn.equals("white") && gb.board[i][j].empty.equals("white")) {
 			System.out.println("checkwhite");
-			currentTurn = "black";		
+			currentTurn = "black";	
 		}
-		else if(currentTurn.equals("black")) {
+		else if(currentTurn.equals("black") && gb.board[i][j].empty.equals("black")) {
 			System.out.println("checkblack");
 			currentTurn = "white";
 		}
