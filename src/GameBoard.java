@@ -9,7 +9,6 @@ public class GameBoard {
 	public GameBoard() {
 		for(int i = 0; i<board.length; i++) {
 			for(int j = 0; j<board[i].length; j++) {
-				//There must be something wrong here...
 				board[i][j] = new Square("empty", i*squareSize + 75, j*squareSize + 55, squareSize);
 			}
 		}
@@ -23,7 +22,6 @@ public class GameBoard {
 	void draw(Graphics g) {
 		g.setColor(new Color (7, 100, 27));
 		g.fillRect(75, 55, 560, 560);		
-		//Or here...?
 	for(int i = 0; i<board.length; i++) {
 		for(int j = 0; j<board[i].length; j++) {
 			board[i][j].draw(g);
