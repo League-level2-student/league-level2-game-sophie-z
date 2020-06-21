@@ -139,30 +139,70 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		
 	}
 
-	void checkPlay(int i, int j) {
-		ArrayList<Point> points = new ArrayList<Point>();
-		String blackwhite = "";
-		if(currentTurn.equals("white") && gb.board[i][j].empty.equals("empty")) {
-			blackwhite = "white";
+	void placePiece(int i, int j) {
+		if(currentTurn.equals("white") && gb.board[i][j].empty.equals("empty") && checkPlay(i, j)) {
 			gb.board[i][j].setStatus("white");
 			currentTurn = "black";
-		}
-		else if(currentTurn.equals("black") && gb.board[i][j].empty.equals("empty")) {
-			blackwhite = "black";
+		} 
+		else if(currentTurn.equals("black") && gb.board[i][j].empty.equals("empty") && checkPlay(i, j)) {
 			gb.board[i][j].setStatus("black");
 			currentTurn = "white";
 		}
-		for(int x = 0; x<points.size(); x++) {
-			gb.board[(int) points.get(x).getX()][(int) points.get(x).getY()].empty = blackwhite;
+	}
+	
+	boolean checkPlay(int i, int j) {
+		ArrayList<Point> pointsright = new ArrayList<Point>();
+		for(int c = i+1; c<gb.board.length; c++) {
+			if(!gb.board[c][j].empty.equals("empty") && !gb.board[c][j].empty.equals(currentTurn)) {
+				pointsright.add(new Point(c, j));
+			}
+			else if(gb.board[c][j].empty.equals("empty")) {
+				pointsright.clear();
+				break;
+			}
+			else {
+				break;
+			}
+		}
+		for(int x = 0; x<pointsright.size(); x++) {
+			gb.board[(int) pointsright.get(x).getX()][(int) pointsright.get(x).getY()].empty = currentTurn;
 		}
 		
-//		for(int a = 0; a<gb.board.length; a++) {
-//		if(currentTurn.equals("white")) {
-//			while(gb.board[i][j]) {
-//				
-//			}
-//		}
-//		}
+		ArrayList<Point> pointsleft = new ArrayList<Point>();
+		for(int b = i-1; b<gb.board.length; b--) {
+			if(!gb.board[b][j].empty.equals("empty") && !gb.board[b][j].empty.equals(currentTurn)) {
+				pointsleft.add(new Point(b, j));
+			}
+			else if(gb.board[b][j].empty.equals("empty")) {
+				pointsleft.clear();
+				break;
+			}
+			else {
+				break;
+			}
+		}
+		for(int y = 0; y<pointsright.size(); y++) {
+			gb.board[(int) pointsright.get(y).getX()][(int) pointsright.get(y).getY()].empty = currentTurn;
+		}
+		
+		ArrayList<Point> pointsup = new ArrayList<Point>();
+		for(int d = j+1; d<gb.board.length; d++) {
+			if(!gb.board[i][d].empty.equals("empty") && !gb.board[i][d].empty.equals(currentTurn)) {
+				pointsup.add(new Point(i, d));
+			}
+			else if(gb.board[i][d].empty.equals("empty")) {
+				pointsup.clear();
+				break;
+			}
+			else {
+				break;
+			}
+		}
+		for(int z = 0; z<pointsright.size(); z++) {
+			gb.board[(int) pointsright.get(z).getX()][(int) pointsright.get(z).getY()].empty = currentTurn;
+		}
+		
+		return pointsright.size()>0 || pointsleft.size()>0 || pointsup.size()<0;
 	}
 	
 	@Override
@@ -172,6 +212,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		int j = (arg0.getY()-85)/70;
 		System.out.println("i:" + i);
 		System.out.println("j:" + j);
+		placePiece(i, j);
 		checkPlay(i, j);
 	}
 
