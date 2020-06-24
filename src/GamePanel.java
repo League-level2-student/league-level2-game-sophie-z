@@ -181,8 +181,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 				break;
 			}
 		}
-		for(int y = 0; y<pointsright.size(); y++) {
-			gb.board[(int) pointsright.get(y).getX()][(int) pointsright.get(y).getY()].empty = currentTurn;
+		for(int y = 0; y<pointsleft.size(); y++) {
+			gb.board[(int) pointsleft.get(y).getX()][(int) pointsleft.get(y).getY()].empty = currentTurn;
 		}
 		
 		ArrayList<Point> pointsup = new ArrayList<Point>();
@@ -198,11 +198,47 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 				break;
 			}
 		}
-		for(int z = 0; z<pointsright.size(); z++) {
-			gb.board[(int) pointsright.get(z).getX()][(int) pointsright.get(z).getY()].empty = currentTurn;
+		for(int z = 0; z<pointsup.size(); z++) {
+			gb.board[(int) pointsup.get(z).getX()][(int) pointsup.get(z).getY()].empty = currentTurn;
 		}
 		
-		return pointsright.size()>0 || pointsleft.size()>0 || pointsup.size()<0;
+		ArrayList<Point> pointsdown = new ArrayList<Point>();
+		for(int f = j-1; f<gb.board.length; f--) {
+			if(!gb.board[i][f].empty.equals("empty") && !gb.board[i][f].empty.equals(currentTurn)) {
+				pointsdown.add(new Point(i, f));
+			}
+			else if(gb.board[i][f].empty.equals("empty")) {
+				pointsdown.clear();
+				break;
+			}
+			else {
+				break;
+			}
+		}
+		for(int s = 0; s<pointsdown.size(); s++) {
+			gb.board[(int) pointsdown.get(s).getX()][(int) pointsdown.get(s).getY()].empty = currentTurn;
+		}
+		
+//		ArrayList<Point> pointsrightup = new ArrayList<Point>();
+//		for(int g = j+1; g<gb.board.length; g++) {
+//			for(int o = i+1; o<gb.board.length; i++) {
+//			if(!gb.board[o][g].empty.equals("empty") && !gb.board[o][g].empty.equals(currentTurn)) {
+//				pointsrightup.add(new Point(o, g));
+//			}
+//			else if(gb.board[o][g].empty.equals("empty")) {
+//				pointsrightup.clear();
+//				break;
+//			}
+//			else {
+//				break;
+//			}
+//		}
+//		}
+//		for(int p = 0; p<pointsrightup.size(); p++) {
+//			gb.board[(int) pointsrightup.get(p).getX()][(int) pointsrightup.get(p).getY()].empty = currentTurn;
+//		}
+		
+		return pointsright.size()>0 || pointsleft.size()>0 || pointsup.size()>0 || pointsdown.size()>0; //|| pointsrightup.size()>0;
 	}
 	
 	@Override
