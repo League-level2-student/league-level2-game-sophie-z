@@ -152,15 +152,18 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 	
 	boolean checkPlay(int i, int j) {
 		ArrayList<Point> pointsright = new ArrayList<Point>();
+		System.out.println(currentTurn);
 		for(int c = i+1; c<gb.board.length; c++) {
-			if(!gb.board[c][j].empty.equals("empty") && !gb.board[c][j].empty.equals(currentTurn)) {
+			if(gb.board[c][j].empty.equals(currentTurn)) {
 				pointsright.add(new Point(c, j));
+				break;
 			}
 			else if(gb.board[c][j].empty.equals("empty")) {
 				pointsright.clear();
 				break;
 			}
-			else {
+			else if(!gb.board[c][j].empty.equals(currentTurn)){
+				
 				break;
 			}
 		}
@@ -249,7 +252,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		System.out.println("i:" + i);
 		System.out.println("j:" + j);
 		placePiece(i, j);
-		checkPlay(i, j);
 	}
 
 	@Override
