@@ -151,29 +151,13 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 	}
 	
 	boolean checkPlay(int i, int j) {
-		ArrayList<Point> pointsright = new ArrayList<Point>();
+		ArrayList<Point> pointsleft = new ArrayList<Point>();
 		for(int c = i+1; c<gb.board.length; c++) {
+			System.out.println("pointsright");
 			if(!gb.board[c][j].empty.equals("empty") && !gb.board[c][j].empty.equals(currentTurn)) {
-				pointsright.add(new Point(c, j));
+				pointsleft.add(new Point(c, j));
 			}
 			else if(gb.board[c][j].empty.equals("empty")) {
-				pointsright.clear();
-				break;
-			}
-			else {
-				break;
-			}
-		}
-		for(int x = 0; x<pointsright.size(); x++) {
-			gb.board[(int) pointsright.get(x).getX()][(int) pointsright.get(x).getY()].empty = currentTurn;
-		}
-		
-		ArrayList<Point> pointsleft = new ArrayList<Point>();
-		for(int b = i-1; b<gb.board.length; b--) {
-			if(!gb.board[b][j].empty.equals("empty") && !gb.board[b][j].empty.equals(currentTurn)) {
-				pointsleft.add(new Point(b, j));
-			}
-			else if(gb.board[b][j].empty.equals("empty")) {
 				pointsleft.clear();
 				break;
 			}
@@ -181,33 +165,33 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 				break;
 			}
 		}
-		for(int y = 0; y<pointsleft.size(); y++) {
-			gb.board[(int) pointsleft.get(y).getX()][(int) pointsleft.get(y).getY()].empty = currentTurn;
+		for(int x = 0; x<pointsleft.size(); x++) {
+			gb.board[(int) pointsleft.get(x).getX()][(int) pointsleft.get(x).getY()].empty = currentTurn;
 		}
 		
-		ArrayList<Point> pointsup = new ArrayList<Point>();
-		for(int d = j+1; d<gb.board.length; d++) {
-			if(!gb.board[i][d].empty.equals("empty") && !gb.board[i][d].empty.equals(currentTurn)) {
-				pointsup.add(new Point(i, d));
+		ArrayList<Point> pointsright = new ArrayList<Point>();
+		for(int b = i-1; b>=0; b--) {
+			if(!gb.board[b][j].empty.equals("empty") && !gb.board[b][j].empty.equals(currentTurn)) {
+				pointsright.add(new Point(b, j));
 			}
-			else if(gb.board[i][d].empty.equals("empty")) {
-				pointsup.clear();
+			else if(gb.board[b][j].empty.equals("empty")) {
+				pointsright.clear();
 				break;
 			}
 			else {
 				break;
 			}
 		}
-		for(int z = 0; z<pointsup.size(); z++) {
-			gb.board[(int) pointsup.get(z).getX()][(int) pointsup.get(z).getY()].empty = currentTurn;
+		for(int y = 0; y<pointsright.size(); y++) {
+			gb.board[(int) pointsright.get(y).getX()][(int) pointsright.get(y).getY()].empty = currentTurn;
 		}
 		
 		ArrayList<Point> pointsdown = new ArrayList<Point>();
-		for(int f = j-1; f<gb.board.length; f--) {
-			if(!gb.board[i][f].empty.equals("empty") && !gb.board[i][f].empty.equals(currentTurn)) {
-				pointsdown.add(new Point(i, f));
+		for(int d = j+1; d<gb.board.length; d++) {
+			if(!gb.board[i][d].empty.equals("empty") && !gb.board[i][d].empty.equals(currentTurn)) {
+				pointsdown.add(new Point(i, d));
 			}
-			else if(gb.board[i][f].empty.equals("empty")) {
+			else if(gb.board[i][d].empty.equals("empty")) {
 				pointsdown.clear();
 				break;
 			}
@@ -215,13 +199,49 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 				break;
 			}
 		}
-		for(int s = 0; s<pointsdown.size(); s++) {
-			gb.board[(int) pointsdown.get(s).getX()][(int) pointsdown.get(s).getY()].empty = currentTurn;
+		for(int z = 0; z<pointsdown.size(); z++) {
+			gb.board[(int) pointsdown.get(z).getX()][(int) pointsdown.get(z).getY()].empty = currentTurn;
+		}
+		
+		ArrayList<Point> pointsup = new ArrayList<Point>();
+		for(int f = j-1; f<gb.board.length; f--) {
+			if(!gb.board[i][f].empty.equals("empty") && !gb.board[i][f].empty.equals(currentTurn)) {
+				pointsup.add(new Point(i, f));
+			}
+			else if(gb.board[i][f].empty.equals("empty")) {
+				pointsup.clear();
+				break;
+			}
+			else {
+				break;
+			}
+		}
+		for(int s = 0; s<pointsup.size(); s++) {
+			gb.board[(int) pointsup.get(s).getX()][(int) pointsup.get(s).getY()].empty = currentTurn;
 		}
 		
 		ArrayList<Point> pointsrightup = new ArrayList<Point>();
-		for(int n = i+1) {
-		
+		boolean edge = false;
+		int row = j-1;
+		int collumn = i+1;
+		while(!edge){
+		if(row<0 || collumn>=gb.board.length) {
+			edge = true;
+		}
+		else {
+			if(!gb.board[row][collumn].empty.equals("empty") && !gb.board[row][collumn].empty.equals(currentTurn)) {
+				pointsrightup.add(new Point(row, collumn));
+			}
+			else if(gb.board[row][collumn].empty.equals("empty")) {
+				pointsrightup.clear();
+				edge = true;
+			}
+			else {
+				edge = true;
+			}
+		}
+		row--;
+		collumn++;		
 		}
 	
 		return pointsright.size()>0 || pointsleft.size()>0 || pointsup.size()>0 || pointsdown.size()>0 || pointsrightup.size()>0;
