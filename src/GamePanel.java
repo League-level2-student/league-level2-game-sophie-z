@@ -243,6 +243,9 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		row--;
 		collumn++;		
 		}
+		for(int m = 0; m<pointsrightup.size(); m++) {
+			gb.board[(int) pointsrightup.get(m).getX()][(int) pointsrightup.get(m).getY()].empty = currentTurn;
+		}
 	
 		return pointsright.size()>0 || pointsleft.size()>0 || pointsup.size()>0 || pointsdown.size()>0 || pointsrightup.size()>0;
 	}
