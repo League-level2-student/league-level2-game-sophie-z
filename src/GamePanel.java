@@ -222,8 +222,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		
 		ArrayList<Point> pointsrightup = new ArrayList<Point>();
 		boolean edge = false;
-		int row = j-1;
-		int collumn = i+1;
+		int row = i+1;
+		int collumn = j-1;
 		while(!edge){
 		if(row<0 || collumn>=gb.board.length) {
 			edge = true;
@@ -235,6 +235,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			else if(gb.board[row][collumn].empty.equals("empty")) {
 				pointsrightup.clear();
 				edge = true;
+				System.out.println("worked");
 			}
 			else {
 				edge = true;
