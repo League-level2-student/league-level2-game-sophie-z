@@ -222,8 +222,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		
 		ArrayList<Point> pointsrightup = new ArrayList<Point>();
 		boolean edge = false;
-		int row = i+1;
-		int collumn = j-1;
+		int collumn = i+1;
+		int row = j-1;
 		while(!edge){
 		if(row<0 || collumn>=gb.board.length) {
 			edge = true;
@@ -235,7 +235,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			else if(gb.board[row][collumn].empty.equals("empty")) {
 				pointsrightup.clear();
 				edge = true;
-				System.out.println("worked");
 			}
 			else {
 				edge = true;
@@ -248,7 +247,88 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			gb.board[(int) pointsrightup.get(m).getX()][(int) pointsrightup.get(m).getY()].empty = currentTurn;
 		}
 	
-		return pointsright.size()>0 || pointsleft.size()>0 || pointsup.size()>0 || pointsdown.size()>0 || pointsrightup.size()>0;
+		ArrayList<Point> pointsrightdown = new ArrayList<Point>();
+		edge = false;
+		collumn = i+1;
+		row = j+1;
+		while(!edge){
+		if(row<0 || collumn>=gb.board.length) {
+			edge = true;
+		}
+		else {
+			if(!gb.board[row][collumn].empty.equals("empty") && !gb.board[row][collumn].empty.equals(currentTurn)) {
+				pointsrightdown.add(new Point(row, collumn));
+			}
+			else if(gb.board[row][collumn].empty.equals("empty")) {
+				pointsrightdown.clear();
+				edge = true;
+			}
+			else {
+				edge = true;
+			}
+		}
+		row++;
+		collumn++;		
+		}
+		for(int m = 0; m<pointsrightdown.size(); m++) {
+			gb.board[(int) pointsrightdown.get(m).getX()][(int) pointsrightdown.get(m).getY()].empty = currentTurn;
+		}
+		
+		ArrayList<Point> pointsleftup = new ArrayList<Point>();
+		edge = false;
+		collumn = i-1;
+		row = j-1;
+		while(!edge){
+		if(row<0 || collumn>=gb.board.length) {
+			edge = true;
+		}
+		else {
+			if(!gb.board[row][collumn].empty.equals("empty") && !gb.board[row][collumn].empty.equals(currentTurn)) {
+				pointsleftup.add(new Point(row, collumn));
+			}
+			else if(gb.board[row][collumn].empty.equals("empty")) {
+				pointsleftup.clear();
+				edge = true;
+			}
+			else {
+				edge = true;
+			}
+		}
+		row--;
+		collumn--;		
+		}
+		for(int m = 0; m<pointsleftup.size(); m++) {
+			gb.board[(int) pointsleftup.get(m).getX()][(int) pointsleftup.get(m).getY()].empty = currentTurn;
+		}
+		
+		ArrayList<Point> pointsleftdown = new ArrayList<Point>();
+		edge = false;
+		collumn = i-1;
+		row = j+1;
+		while(!edge){
+		if(row<0 || collumn>=gb.board.length) {
+			edge = true;
+		}
+		else {
+			if(!gb.board[row][collumn].empty.equals("empty") && !gb.board[row][collumn].empty.equals(currentTurn)) {
+				pointsleftdown.add(new Point(row, collumn));
+			}
+			else if(gb.board[row][collumn].empty.equals("empty")) {
+				pointsleftdown.clear();
+				edge = true;
+			}
+			else {
+				edge = true;
+			}
+		}
+		row++;
+		collumn--;		
+		}
+		for(int m = 0; m<pointsleftdown.size(); m++) {
+			gb.board[(int) pointsleftdown.get(m).getX()][(int) pointsleftdown.get(m).getY()].empty = currentTurn;
+		}
+		
+		return pointsright.size()>0 || pointsleft.size()>0 || pointsup.size()>0 || pointsdown.size()>0 || pointsrightup.size()>0 || pointsrightdown.size()>0 || pointsleftup.size()>0 || pointsleftdown.size()>0;
 	}
 	
 	@Override
