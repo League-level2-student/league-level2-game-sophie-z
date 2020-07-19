@@ -229,6 +229,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		boolean edge = false;
 		int collumn = i+1;
 		int row = j-1;
+		row--;
+		collumn++;	
 		while(!edge){
 		if(row<0 || collumn>=gb.board.length) {
 			edge = true;
@@ -244,9 +246,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			else {
 				edge = true;
 			}
-		}
-		row--;
-		collumn++;		
+		}	
 		}
 		for(int m = 0; m<pointsrightup.size(); m++) {
 			gb.board[(int) pointsrightup.get(m).getX()][(int) pointsrightup.get(m).getY()].empty = currentTurn;
