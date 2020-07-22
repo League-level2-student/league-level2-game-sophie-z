@@ -147,8 +147,16 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		
 	}
 
-	boolean checkPlay(int i, int j) {
-
+	ArrayList checkPlay(int i, int j) {
+		pointsleft.clear();
+		pointsright.clear();
+		pointsup.clear();
+		pointsdown.clear();
+		pointsrightup.clear();
+		pointsrightdown.clear();
+		pointsleftup.clear();
+		pointsleftdown.clear();
+		
 		//pointsleft
 		if(i<gb.board.length-2) {
 		for(int c = i+1; c<gb.board.length; c++) {
@@ -164,8 +172,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 				break;
 			}
 		}
+		System.out.println(pointsleft.size());
 		}
-		pointsleft.clear();
 		
 		//pointsright
 		if(i>1) {
@@ -181,7 +189,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			}
 		}
 		}
-		pointsright.clear();
 				
 		//pointsup
 		if(j>1) {
@@ -197,7 +204,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			}
 		}
 		}
-		pointsup.clear();
 		
 		//pointsdown
 			if(j<gb.board.length-2) {
@@ -213,7 +219,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 				}
 			}
 			}
-			pointsdown.clear();
 		
 		//pointsrightup
 		boolean edge = false;
@@ -238,7 +243,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			}
 		}	
 		}
-		pointsrightup.clear();
 	
 		//pointsrightdown
 		edge = false;
@@ -262,7 +266,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			}
 		}		
 		}
-		pointsrightdown.clear();
 		
 		//pointsleftup
 		edge = false;
@@ -286,7 +289,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			}
 		}	
 		}
-		pointsleftup.clear();
 		
 		//pointsleftdown
 		edge = false;
@@ -310,25 +312,42 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			}
 		}
 		}
-		pointsleftdown.clear();
 		
-		return pointsright.size()>0 || pointsleft.size()>0 || pointsup.size()>0 || pointsdown.size()>0 || pointsrightup.size()>0 || pointsrightdown.size()>0 || pointsleftup.size()>0 || pointsleftdown.size()>0;
+		ArrayList <ArrayList<Point>> points = new ArrayList();
+		points.add(pointsleft);
+		points.add(pointsleftdown);
+		points.add(pointsleftup);
+		points.add(pointsright);
+		points.add(pointsrightdown);
+		points.add(pointsrightup);
+		points.add(pointsup);
+		points.add(pointsdown);
+		return points;
 	}
 	
-void placePiece(int i, int j) {
+	void placePiece(int i, int j) {		
+		ArrayList<ArrayList<Point>> points = checkPlay(i, j);
 		
-		System.out.println("placePiece");
-		System.out.println(checkPlay(i,j));
+		pointsleft = points.get(0);
+		pointsleftdown = points.get(1);
+		pointsleftup = points.get(2);
+		pointsright = points.get(3);
+		pointsrightdown = points.get(4);
+		pointsrightup = points.get(5);
+		pointsup = points.get(6);
+		pointsdown = points.get(7);
 		
-		if(currentTurn.equals("white") && gb.board[i][j].empty.equals("empty") && checkPlay(i, j)) {
+		boolean check = pointsright.size()>0 || pointsleft.size()>0 || pointsup.size()>0 || pointsdown.size()>0 || pointsrightup.size()>0 || pointsrightdown.size()>0 || pointsleftup.size()>0 || pointsleftdown.size()>0;
+		if(currentTurn.equals("white") && gb.board[i][j].empty.equals("empty") && check) {
 			gb.board[i][j].setStatus("white");
 			currentTurn = "black";
 		} 
-		else if(currentTurn.equals("black") && gb.board[i][j].empty.equals("empty") && checkPlay(i, j)) {
+		else if(currentTurn.equals("black") && gb.board[i][j].empty.equals("empty") && check) {
 			gb.board[i][j].setStatus("black");
 			currentTurn = "white";
 			System.out.println("black");
 		}
+		System.out.println("placePiece " + pointsleft.size());
 		for(int x = 0; x<pointsleft.size(); x++) {
 			gb.board[(int) pointsleft.get(x).getX()][(int) pointsleft.get(x).getY()].empty = currentTurn;
 			System.out.println("pointsleft size = " + pointsleft.size());
