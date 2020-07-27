@@ -162,8 +162,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		for(int c = i+1; c<gb.board.length; c++) {
 			if(!gb.board[c][j].empty.equals("empty") && !gb.board[c][j].empty.equals(currentTurn)) {
 				pointsleft.add(new Point(c, j));
-				System.out.println("pointsleft");
 				System.out.println(gb.board[c][j].empty);
+				System.out.println("pointsleft " + pointsleft.size());
 			}
 			else if(gb.board[c][j].empty.equals("empty")) {
 				break;
@@ -172,7 +172,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 				break;
 			}
 		}
-		System.out.println(pointsleft.size());
 		}
 		
 		//pointsright
@@ -190,11 +189,12 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		}
 		}
 				
-		//pointsup
+		//pointsdown
 		if(j>1) {
 		for(int f = j-1; f<gb.board.length; f--) {
-			if(!gb.board[i][f].empty.equals("empty") && !gb.board[i][f].empty.equals(currentTurn)) {
-				pointsup.add(new Point(i, f));
+			if(!gb.board[i][f].empty.equals("empty") && gb.board[i][f].empty.equals(currentTurn)) {
+				pointsdown.add(new Point(i, f));
+				System.out.println("pointsdown " + pointsdown.size());
 			}
 			else if(gb.board[i][f].empty.equals("empty")) {
 				break;
@@ -205,11 +205,11 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		}
 		}
 		
-		//pointsdown
+		//pointsup
 			if(j<gb.board.length-2) {
 			for(int d = j+1; d<gb.board.length; d++) {
-				if(!gb.board[i][d].empty.equals("empty") && !gb.board[i][d].empty.equals(currentTurn)) {
-					pointsdown.add(new Point(i, d));
+				if(!gb.board[i][d].empty.equals("empty") && gb.board[i][d].empty.equals(currentTurn)) {
+					pointsup.add(new Point(i, d));
 				}
 				else if(gb.board[i][d].empty.equals("empty")) {
 					break;
@@ -231,7 +231,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			edge = true;
 		}
 		else {
-			if(!gb.board[row][collumn].empty.equals("empty") && !gb.board[row][collumn].empty.equals(currentTurn)) {
+			if(!gb.board[row][collumn].empty.equals("empty") && gb.board[row][collumn].empty.equals(currentTurn)) {
 				pointsrightup.add(new Point(row, collumn));
 				System.out.println("row = " + row + " collumn = " + collumn + " pointsrightup = " + pointsrightup.size());
 			}
@@ -337,20 +337,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		pointsup = points.get(6);
 		pointsdown = points.get(7);
 		
-		boolean check = pointsright.size()>0 || pointsleft.size()>0 || pointsup.size()>0 || pointsdown.size()>0 || pointsrightup.size()>0 || pointsrightdown.size()>0 || pointsleftup.size()>0 || pointsleftdown.size()>0;
-		if(currentTurn.equals("white") && gb.board[i][j].empty.equals("empty") && check) {
-			gb.board[i][j].setStatus("white");
-			currentTurn = "black";
-		} 
-		else if(currentTurn.equals("black") && gb.board[i][j].empty.equals("empty") && check) {
-			gb.board[i][j].setStatus("black");
-			currentTurn = "white";
-			System.out.println("black");
-		}
-		System.out.println("placePiece " + pointsleft.size());
 		for(int x = 0; x<pointsleft.size(); x++) {
 			gb.board[(int) pointsleft.get(x).getX()][(int) pointsleft.get(x).getY()].empty = currentTurn;
-			System.out.println("pointsleft size = " + pointsleft.size());
 		}
 		for(int x = 0; x<pointsright.size(); x++) {
 			gb.board[(int) pointsright.get(x).getX()][(int) pointsright.get(x).getY()].empty = currentTurn;
@@ -362,7 +350,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			gb.board[(int) pointsdown.get(x).getX()][(int) pointsdown.get(x).getY()].empty = currentTurn;
 		}
 		for(int x = 0; x<pointsrightup.size(); x++) {
-			gb.board[(int) pointsrightup.get(x).getX()][(int) pointsrightup.get(x).getY()].empty = currentTurn;
+			gb.board[(int) pointsrightup.get(x).getX()][(int) pointsrightup.get(x).getY()].empty = currentTurn;	
 		}
 		for(int x = 0; x<pointsrightdown.size(); x++) {
 			gb.board[(int) pointsrightdown.get(x).getX()][(int) pointsrightdown.get(x).getY()].empty = currentTurn;
@@ -372,6 +360,16 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		}
 		for(int x = 0; x<pointsleftdown.size(); x++) {
 			gb.board[(int) pointsleftdown.get(x).getX()][(int) pointsleftdown.get(x).getY()].empty = currentTurn;
+		}
+		
+		boolean check = pointsright.size()>0 || pointsleft.size()>0 || pointsup.size()>0 || pointsdown.size()>0 || pointsrightup.size()>0 || pointsrightdown.size()>0 || pointsleftup.size()>0 || pointsleftdown.size()>0;
+		if(currentTurn.equals("white") && gb.board[i][j].empty.equals("empty") && check) {
+			gb.board[i][j].setStatus("white");
+			currentTurn = "black";
+		} 
+		else if(currentTurn.equals("black") && gb.board[i][j].empty.equals("empty") && check) {
+			gb.board[i][j].setStatus("black");
+			currentTurn = "white";
 		}
 	}
 	
