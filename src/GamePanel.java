@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener, MouseListener{
@@ -160,12 +161,13 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		//pointsleft
 		if(i<gb.board.length-2) {
 		for(int c = i+1; c<gb.board.length; c++) {
+			//if(gb.board[c][j].empty.equals(currentTurn)) { ---> make first loop checking whether there is a tail of the sandwich
 			if(!gb.board[c][j].empty.equals("empty") && !gb.board[c][j].empty.equals(currentTurn)) {
 				pointsleft.add(new Point(c, j));
-				System.out.println(gb.board[c][j].empty);
-				System.out.println("pointsleft " + pointsleft.size());
+			//}
 			}
 			else if(gb.board[c][j].empty.equals("empty")) {
+				
 				break;
 			}
 			else {
@@ -190,8 +192,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		}
 				
 		//pointsdown
-		if(j>1) {
-		for(int f = j-1; f<gb.board.length; f--) {
+		if(j>=2) {
+		for(int f = j-1; f>=0; f--) {
 			if(!gb.board[i][f].empty.equals("empty") && gb.board[i][f].empty.equals(currentTurn)) {
 				pointsdown.add(new Point(i, f));
 				System.out.println("pointsdown " + pointsdown.size());
