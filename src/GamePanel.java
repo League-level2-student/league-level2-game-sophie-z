@@ -160,16 +160,15 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		pointsleftdown.clear();
 		
 		//pointsleft --> placing a piece on the left checking pieces to the right
-		//LOOK HERE LOOK HERE
-		for(int c = i+1; c<gb.board.length; c++) {
+		for(int c = i+1; c<gb.board.length; c++) { //piece placed = i,j so basically checking i++
 			if(c-1>=2) { //checking that the tail piece is not right next to the piece put down; at least one piece in between
 				if(gb.board[c][j].empty.equals(currentTurn)) { //checking if there is a tail to the sandwich
 					for(int inside = c-1; inside>=i+1; inside--) { 
-						if(!gb.board[inside][j].empty.equals("white")) { //checking if ALL the pieces in the sandwich are not WHITE (should just be the opposite color NEED TO FIX) and if they are not it's not a valid play
+						if(gb.board[inside][j].empty.equals("empty") || gb.board[inside][j].empty.equals(currentTurn)) { //checking if ALL the pieces in the sandwich are not the same color or empty and if they are it's not a valid play
 							pointsleft.clear();
 							break;
 						}
-						pointsleft.add(new Point(inside, j));
+							pointsleft.add(new Point(inside, j));
 					}
 				}
 			}
@@ -193,8 +192,18 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 //		}
 		
 		//pointsright --> placing a piece on the right checking pieces to the left
-		for(int b = i-1; b>=0; b--) {
-			
+		for(int c = i-1; c>=0; c--) {
+			if(i-c>=2) {
+				if(gb.board[c][j].empty.equals(currentTurn)) {
+					for(int inside = c+1; inside<=i-1; inside++) {
+						if(gb.board[inside][j].empty.equals("empty") || gb.board[inside][j].empty.equals(currentTurn)) { //checking if ALL the pieces in the sandwich are not the same color or empty and if they are it's not a valid play
+							pointsright.clear();
+							break;
+						}
+							pointsright.add(new Point(inside, j));
+					}
+				}
+			}
 		}
 		
 		//pointsright
@@ -211,22 +220,36 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 //			}
 //		}
 //		}
-				
-		//pointsdown
-		if(j>=2) {
-		for(int f = j-1; f>=0; f--) {
-			if(!gb.board[i][f].empty.equals("empty") && !gb.board[i][f].empty.equals(currentTurn)) {
-				pointsdown.add(new Point(i, f));
-				System.out.println("pointsdown " + pointsdown.size());
-			}
-			else if(gb.board[i][f].empty.equals("empty")) {
-				break;
-			}
-			else {
-				break;
+
+		//pointsdown --> placing a piece on the bottom checking pieces upwards
+		for(int c = j-1; c>=0; c--) {
+			if(j-c>=2) {
+				if(gb.board[c][j].empty.equals(currentTurn)) {
+					for(int inside = j+1; inside<=j-1; inside++) {
+						if(gb.board[i][inside].empty.equals("empty") || gb.board[i][inside].empty.equals(currentTurn)) { //checking if ALL the pieces in the sandwich are not the same color or empty and if they are it's not a valid play
+							pointsdown.clear();
+							break;
+						}
+							pointsdown.add(new Point(i, inside));
+				}
 			}
 		}
-		}
+		
+//		//pointsdown
+//		if(j>=2) {
+//		for(int f = j-1; f>=0; f--) {
+//			if(!gb.board[i][f].empty.equals("empty") && !gb.board[i][f].empty.equals(currentTurn)) {
+//				pointsdown.add(new Point(i, f));
+//				System.out.println("pointsdown " + pointsdown.size());
+//			}
+//			else if(gb.board[i][f].empty.equals("empty")) {
+//				break;
+//			}
+//			else {
+//				break;
+//			}
+//		}
+//		}
 		
 		//pointsup
 			if(j<gb.board.length-2) {
@@ -346,6 +369,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		points.add(pointsup);
 		points.add(pointsdown);
 		return points; 
+		}
+		return pointsdown;
 	}
 	
 	void placePiece(int i, int j) {		
@@ -364,7 +389,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			int pointXCoord = (int) pointsleft.get(x).getX();
 			int pointYCoord = (int) pointsleft.get(x).getY();
 			gb.board[pointXCoord][pointYCoord].empty = currentTurn;
-			System.out.println("pointsleft coord = " + pointXCoord + ", " + pointYCoord);
 		}
 		for(int x = 0; x<pointsright.size(); x++) {
 			gb.board[(int) pointsright.get(x).getX()][(int) pointsright.get(x).getY()].empty = currentTurn;
