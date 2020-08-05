@@ -149,7 +149,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		
 	}
 
-	boolean checkPlay(int i, int j) {
+	ArrayList checkPlay(int i, int j) {
 		pointsleft.clear();
 		pointsright.clear();
 		pointsup.clear();
@@ -159,43 +159,58 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		pointsleftup.clear();
 		pointsleftdown.clear();
 		
-		tail = false;
-		if(gb.board[i][j].empty.equals(currentTurn)) {
-			tail = true;
+		//pointsleft --> placing a piece on the left checking pieces to the right
+		//LOOK HERE LOOK HERE
+		for(int c = i+1; c<gb.board.length; c++) {
+			if(c-1>=2) { //checking that the tail piece is not right next to the piece put down; at least one piece in between
+				if(gb.board[c][j].empty.equals(currentTurn)) { //checking if there is a tail to the sandwich
+					for(int inside = c-1; inside>=i+1; inside--) { 
+						if(!gb.board[inside][j].empty.equals("white")) { //checking if ALL the pieces in the sandwich are not WHITE (should just be the opposite color NEED TO FIX) and if they are not it's not a valid play
+							pointsleft.clear();
+							break;
+						}
+						pointsleft.add(new Point(inside, j));
+					}
+				}
+			}
 		}
 		
 		//pointsleft
-		if(i<gb.board.length-2) {
-		for(int c = i+1; c<gb.board.length; c++) {
-			if(tail==true) { //---> make first loop checking whether there is a tail of the sandwich
-			if(!gb.board[c][j].empty.equals("empty") && !gb.board[c][j].empty.equals(currentTurn)) {
-				pointsleft.add(new Point(c, j));
-			//}
-			}
-			else if(gb.board[c][j].empty.equals("empty")) {
-				
-				break;
-			}
-			else {
-				break;
-			}
-		}
+//		if(i<gb.board.length-2) {
+//		for(int c = i+1; c<gb.board.length; c++) {
+//			if(tail==true) { //---> make first loop checking whether there is a tail of the sandwich
+//			if(!gb.board[c][j].empty.equals("empty") && !gb.board[c][j].empty.equals(currentTurn)) {
+//				pointsleft.add(new Point(c, j));
+//			//}
+//			}
+//			else if(gb.board[c][j].empty.equals("empty")) {
+//				break;
+//			}
+//			else {
+//				break;
+//			}
+//		}
+//		}
+		
+		//pointsright --> placing a piece on the right checking pieces to the left
+		for(int b = i-1; b>=0; b--) {
+			
 		}
 		
 		//pointsright
-		if(i>1) {
-		for(int b = i-1; b>=0; b--) {
-			if(!gb.board[b][j].empty.equals("empty") && !gb.board[b][j].empty.equals(currentTurn)) {
-				pointsright.add(new Point(b, j));
-			}
-			else if(gb.board[b][j].empty.equals("empty")) {
-				break;
-			}
-			else {
-				break;
-			}
-		}
-		}
+//		if(i>1) {
+//		for(int b = i-1; b>=0; b--) {
+//			if(!gb.board[b][j].empty.equals("empty") && !gb.board[b][j].empty.equals(currentTurn)) {
+//				pointsright.add(new Point(b, j));
+//			}
+//			else if(gb.board[b][j].empty.equals("empty")) {
+//				break;
+//			}
+//			else {
+//				break;
+//			}
+//		}
+//		}
 				
 		//pointsdown
 		if(j>=2) {
@@ -321,34 +336,35 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		}
 		}
 		
-//		ArrayList <ArrayList<Point>> points = new ArrayList();
-//		points.add(pointsleft);
-//		points.add(pointsleftdown);
-//		points.add(pointsleftup);
-//		points.add(pointsright);
-//		points.add(pointsrightdown);
-//		points.add(pointsrightup);
-//		points.add(pointsup);
-//		points.add(pointsdown);
-		return tail; 
-		}
-		return tail;
+		ArrayList <ArrayList<Point>> points = new ArrayList();
+		points.add(pointsleft);
+		points.add(pointsleftdown);
+		points.add(pointsleftup);
+		points.add(pointsright);
+		points.add(pointsrightdown);
+		points.add(pointsrightup);
+		points.add(pointsup);
+		points.add(pointsdown);
+		return points; 
 	}
 	
 	void placePiece(int i, int j) {		
-//		ArrayList<ArrayList<Point>> points = checkPlay(i, j);
-//		
-//		pointsleft = points.get(0);
-//		pointsleftdown = points.get(1);
-//		pointsleftup = points.get(2);
-//		pointsright = points.get(3);
-//		pointsrightdown = points.get(4);
-//		pointsrightup = points.get(5);
-//		pointsup = points.get(6);
-//		pointsdown = points.get(7);
-//		
+		ArrayList<ArrayList<Point>> points = checkPlay(i, j);
+		
+		pointsleft = points.get(0);
+		pointsleftdown = points.get(1);
+		pointsleftup = points.get(2);
+		pointsright = points.get(3);
+		pointsrightdown = points.get(4);
+		pointsrightup = points.get(5);
+		pointsup = points.get(6);
+		pointsdown = points.get(7);
+		
 		for(int x = 0; x<pointsleft.size(); x++) {
-			gb.board[(int) pointsleft.get(x).getX()][(int) pointsleft.get(x).getY()].empty = currentTurn;
+			int pointXCoord = (int) pointsleft.get(x).getX();
+			int pointYCoord = (int) pointsleft.get(x).getY();
+			gb.board[pointXCoord][pointYCoord].empty = currentTurn;
+			System.out.println("pointsleft coord = " + pointXCoord + ", " + pointYCoord);
 		}
 		for(int x = 0; x<pointsright.size(); x++) {
 			gb.board[(int) pointsright.get(x).getX()][(int) pointsright.get(x).getY()].empty = currentTurn;
