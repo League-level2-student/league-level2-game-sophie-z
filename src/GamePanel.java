@@ -161,15 +161,16 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		
 		//pointsleft --> placing a piece on the left checking pieces to the right
 		for(int c = i+1; c<gb.board.length; c++) { //piece placed = i,j so basically checking i++
-			if(c-1>=2) { //checking that the tail piece is not right next to the piece put down; at least one piece in between
+			if(c-i>=2) { //checking that the tail piece is not right next to the piece put down; at least one piece in between
 				if(gb.board[c][j].empty.equals(currentTurn)) { //checking if there is a tail to the sandwich
-					for(int inside = c-1; inside>=i+1; inside--) { 
+					for(int inside = c-1; inside>=i+1; inside--) { //INSIDE MUST STOP AT FIRST TAIL
 						if(gb.board[inside][j].empty.equals("empty") || gb.board[inside][j].empty.equals(currentTurn)) { //checking if ALL the pieces in the sandwich are not the same color or empty and if they are it's not a valid play
 							pointsleft.clear();
 							break;
 						}
-							pointsleft.add(new Point(inside, j));
+						pointsleft.add(new Point(inside, j));
 					}
+					break;
 				}
 			}
 		}
@@ -196,12 +197,13 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			if(i-c>=2) {
 				if(gb.board[c][j].empty.equals(currentTurn)) {
 					for(int inside = c+1; inside<=i-1; inside++) {
-						if(gb.board[inside][j].empty.equals("empty") || gb.board[inside][j].empty.equals(currentTurn)) { //checking if ALL the pieces in the sandwich are not the same color or empty and if they are it's not a valid play
+						if(gb.board[inside][j].empty.equals("empty") || gb.board[inside][j].empty.equals(currentTurn)) { 
 							pointsright.clear();
 							break;
 						}
-							pointsright.add(new Point(inside, j));
+						pointsright.add(new Point(inside, j));
 					}
+					break;
 				}
 			}
 		}
@@ -224,18 +226,20 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		//pointsdown --> placing a piece on the bottom checking pieces upwards
 		for(int c = j-1; c>=0; c--) {
 			if(j-c>=2) {
-				if(gb.board[c][j].empty.equals(currentTurn)) {
-					for(int inside = j+1; inside<=j-1; inside++) {
-						if(gb.board[i][inside].empty.equals("empty") || gb.board[i][inside].empty.equals(currentTurn)) { //checking if ALL the pieces in the sandwich are not the same color or empty and if they are it's not a valid play
+				if(gb.board[i][c].empty.equals(currentTurn)) {
+					for(int inside = c+1; inside<=j-1; inside++) {
+						if(gb.board[i][inside].empty.equals("empty") || gb.board[i][inside].empty.equals(currentTurn)) { 
 							pointsdown.clear();
 							break;
 						}
-							pointsdown.add(new Point(i, inside));
+						pointsdown.add(new Point(i, inside));
+					}
+					break;
 				}
 			}
-		}
+			}
 		
-//		//pointsdown
+		//pointsdown
 //		if(j>=2) {
 //		for(int f = j-1; f>=0; f--) {
 //			if(!gb.board[i][f].empty.equals("empty") && !gb.board[i][f].empty.equals(currentTurn)) {
@@ -251,113 +255,129 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 //		}
 //		}
 		
+		//pointsup --> placing a piece on the top checking pieces downward
+		for(int c = j+1; c<gb.board.length; c++) {
+			if(c-j>=2) {
+				if(gb.board[i][c].empty.equals(currentTurn)) {
+					for(int inside = c-1; inside>=j+1; inside--) {
+						if(gb.board[i][inside].empty.equals("empty") || gb.board[i][inside].empty.equals(currentTurn)) { 
+							pointsup.clear();
+							break;
+						}
+						pointsup.add(new Point(i, inside));
+					}
+					break;
+				}
+			}
+		}
+			
 		//pointsup
-			if(j<gb.board.length-2) {
-			for(int d = j+1; d<gb.board.length; d++) {
-				if(!gb.board[i][d].empty.equals("empty") && !gb.board[i][d].empty.equals(currentTurn)) {
-					pointsup.add(new Point(i, d));
-				}
-				else if(gb.board[i][d].empty.equals("empty")) {
-					break;
-				}
-				else {
-					break;
-				}
-			}
-			}
+//			if(j<gb.board.length-2) {
+//			for(int d = j+1; d<gb.board.length; d++) {
+//				if(!gb.board[i][d].empty.equals("empty") && !gb.board[i][d].empty.equals(currentTurn)) {
+//					pointsup.add(new Point(i, d));
+//				}
+//				else if(gb.board[i][d].empty.equals("empty")) {
+//					break;
+//				}
+//				else {
+//					break;
+//				}
+//			}
+//			}
 		
-		//pointsrightup
-		boolean edge = false;
-		int collumn = i+1;
-		int row = j-1;
-		row--;
-		collumn++;	
-		while(!edge){
-		if(row<0 || collumn>=gb.board.length) {
-			edge = true;
-		}
-		else {
-			if(!gb.board[row][collumn].empty.equals("empty") && !gb.board[row][collumn].empty.equals(currentTurn)) {
-				pointsrightup.add(new Point(row, collumn));
-				System.out.println("row = " + row + " collumn = " + collumn + " pointsrightup = " + pointsrightup.size());
-			}
-			else if(gb.board[row][collumn].empty.equals("empty")) {
-				edge = true;
-			}
-			else {
-				edge = true;
-			}
-		}	
-		}
+//		//pointsrightup
+//		boolean edge = false;
+//		int collumn = i+1;
+//		int row = j-1;
+//		row--;
+//		collumn++;	
+//		while(!edge){
+//		if(row<0 || collumn>=gb.board.length) {
+//			edge = true;
+//		}
+//		else {
+//			if(!gb.board[row][collumn].empty.equals("empty") && !gb.board[row][collumn].empty.equals(currentTurn)) {
+//				pointsrightup.add(new Point(row, collumn));
+//				System.out.println("row = " + row + " collumn = " + collumn + " pointsrightup = " + pointsrightup.size());
+//			}
+//			else if(gb.board[row][collumn].empty.equals("empty")) {
+//				edge = true;
+//			}
+//			else {
+//				edge = true;
+//			}
+//		}	
+//		}
 	
-		//pointsrightdown
-		edge = false;
-		collumn = i+1;
-		row = j+1;
-		row++;
-		collumn++;
-		while(!edge){
-		if(row<0 || collumn>=gb.board.length) {
-			edge = true;
-		}
-		else {
-			if(!gb.board[row][collumn].empty.equals("empty") && !gb.board[row][collumn].empty.equals(currentTurn)) {
-				pointsrightdown.add(new Point(row, collumn));
-			}
-			else if(gb.board[row][collumn].empty.equals("empty")) {
-				edge = true;
-			}
-			else {
-				edge = true;
-			}
-		}		
-		}
+//		//pointsrightdown
+//		edge = false;
+//		collumn = i+1;
+//		row = j+1;
+//		row++;
+//		collumn++;
+//		while(!edge){
+//		if(row<0 || collumn>=gb.board.length) {
+//			edge = true;
+//		}
+//		else {
+//			if(!gb.board[row][collumn].empty.equals("empty") && !gb.board[row][collumn].empty.equals(currentTurn)) {
+//				pointsrightdown.add(new Point(row, collumn));
+//			}
+//			else if(gb.board[row][collumn].empty.equals("empty")) {
+//				edge = true;
+//			}
+//			else {
+//				edge = true;
+//			}
+//		}		
+//		}
 		
-		//pointsleftup
-		edge = false;
-		collumn = i-1;
-		row = j-1;
-		row--;
-		collumn--;	
-		while(!edge){
-		if(row<0 || collumn<0) {
-			edge = true;
-		}
-		else {
-			if(!gb.board[row][collumn].empty.equals("empty") && !gb.board[row][collumn].empty.equals(currentTurn)) {
-				pointsleftup.add(new Point(row, collumn));
-			}
-			else if(gb.board[row][collumn].empty.equals("empty")) {
-				edge = true;
-			}
-			else {
-				edge = true;
-			}
-		}	
-		}
+//		//pointsleftup
+//		edge = false;
+//		collumn = i-1;
+//		row = j-1;
+//		row--;
+//		collumn--;	
+//		while(!edge){
+//		if(row<0 || collumn<0) {
+//			edge = true;
+//		}
+//		else {
+//			if(!gb.board[row][collumn].empty.equals("empty") && !gb.board[row][collumn].empty.equals(currentTurn)) {
+//				pointsleftup.add(new Point(row, collumn));
+//			}
+//			else if(gb.board[row][collumn].empty.equals("empty")) {
+//				edge = true;
+//			}
+//			else {
+//				edge = true;
+//			}
+//		}	
+//		}
 		
-		//pointsleftdown
-		edge = false;
-		collumn = i-1;
-		row = j+1;
-		row++;
-		collumn--;	
-		while(!edge){
-		if(row<0 || collumn>=gb.board.length) {
-			edge = true;
-		}
-		else {
-			if(!gb.board[row][collumn].empty.equals("empty") && !gb.board[row][collumn].empty.equals(currentTurn)) {
-				pointsleftdown.add(new Point(row, collumn));
-			}
-			else if(gb.board[row][collumn].empty.equals("empty")) {
-				edge = true;
-			}
-			else {
-				edge = true;
-			}
-		}
-		}
+//		//pointsleftdown
+//		edge = false;
+//		collumn = i-1;
+//		row = j+1;
+//		row++;
+//		collumn--;	
+//		while(!edge){
+//		if(row<0 || collumn>=gb.board.length) {
+//			edge = true;
+//		}
+//		else {
+//			if(!gb.board[row][collumn].empty.equals("empty") && !gb.board[row][collumn].empty.equals(currentTurn)) {
+//				pointsleftdown.add(new Point(row, collumn));
+//			}
+//			else if(gb.board[row][collumn].empty.equals("empty")) {
+//				edge = true;
+//			}
+//			else {
+//				edge = true;
+//			}
+//		}
+//		}
 		
 		ArrayList <ArrayList<Point>> points = new ArrayList();
 		points.add(pointsleft);
@@ -370,8 +390,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		points.add(pointsdown);
 		return points; 
 		}
-		return pointsdown;
-	}
 	
 	void placePiece(int i, int j) {		
 		ArrayList<ArrayList<Point>> points = checkPlay(i, j);
