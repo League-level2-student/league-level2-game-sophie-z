@@ -286,6 +286,23 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 //			}
 //			}
 		
+		//pointsrightup --> placing a piece diagonally to the top on the right and checking pieces diagonally to the bottom on the left
+		int row = i-1;
+		int collumn = j+1;
+		row--;
+		collumn++;
+		if(i-row>=2 && collumn-j>=2) {
+			if(gb.board[row][collumn].empty.equals(currentTurn)) {
+				for(int insidex = row+1, insidey = collumn-1; insidex>=i-1 && insidey<=j+1; insidex++, insidey++) {
+					if(gb.board[insidex][insidey].empty.equals("empty") || gb.board[insidex][insidey].empty.equals(currentTurn)) { 
+						pointsup.clear();
+						break;
+					}
+					pointsrightup.add(new Point(insidex, insidey));
+				}
+			}
+		}
+		
 //		//pointsrightup
 //		boolean edge = false;
 //		int collumn = i+1;
