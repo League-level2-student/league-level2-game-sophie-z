@@ -286,11 +286,11 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 //			}
 //			}
 		
-		//LOOK HERE! pointsrightup --> placing a piece diagonally to the top on the right and checking pieces diagonally to the bottom on the left
+		//pointsrightup --> placing a piece diagonally to the top on the right and checking pieces diagonally to the bottom on the left
 		for(int row=i-1, collumn=j+1; row>=0 && collumn<gb.board.length; row--, collumn++) {
 			if(i-row>=2 && collumn-j>=2) {
 				if(gb.board[row][collumn].empty.equals(currentTurn)) {
-					for(int insidex = row+1, insidey = collumn-1; insidex<=i-1 && insidey<=j+1; insidex++, insidey--) {
+					for(int insidex = row+1, insidey = collumn-1; insidex<=i-1 && insidey>=j+1; insidex++, insidey--) {
 						if(gb.board[insidex][insidey].empty.equals("empty") || gb.board[insidex][insidey].empty.equals(currentTurn)) { 
 							pointsrightup.clear();
 							break;
@@ -301,7 +301,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			}
 		}
 		
-		//WORKS! pointsrightdown --> placing a piece diagonally on the bottom to the right and checking pieces diagonally to the top on the left
+		//pointsrightdown --> placing a piece diagonally to the bottom on the right and checking pieces diagonally to the top on the left
 		for(int row=i-1, collumn=j-1; row>=0 && collumn>=0; row--, collumn--) {
 			if(i-row>=2 && j-collumn>=2) {
 				if(gb.board[row][collumn].empty.equals(currentTurn)) {
@@ -311,6 +311,38 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 							break;
 						}
 						pointsrightdown.add(new Point(insidex, insidey));
+					}
+				}
+			}
+		}
+		
+		//pointsleftup --> placing a piece diagonally to the top on the left and checking pieces diagonally to the bottom on the right
+		for(int row=i+1, collumn=j+1; row<gb.board.length && collumn<gb.board.length; row++, collumn++) {
+			if(row-i>=2 && collumn-j>=2) {
+				if(gb.board[row][collumn].empty.equals(currentTurn)) {
+					for(int insidex = row-1, insidey = collumn-1; insidex>=i+1 && insidey>=j+1; insidex--, insidey--) {
+						if(gb.board[insidex][insidey].empty.equals("empty") || gb.board[insidex][insidey].empty.equals(currentTurn)) { 
+							pointsleftup.clear();
+							break;
+						}
+						pointsleftup.add(new Point(insidex, insidey));
+					}
+				}
+			}
+		}
+		
+		//pointsleftdown --> placing a piece diagonally to the bottom on the left and checking pieces diagonally to the top on the right
+		for(int row=i+1, collumn=j-1; row<gb.board.length && collumn>=0; row++, collumn--) {
+			if(row-i>=2 && j-collumn>=2) {
+				if(gb.board[row][collumn].empty.equals(currentTurn)) {
+					System.out.println("row: " + row + " collumn: " + collumn);
+					for(int insidex = row-1, insidey = collumn+1; insidex>=i+1 && insidey<=j-1; insidex--, insidey++) {
+						if(gb.board[insidex][insidey].empty.equals("empty") || gb.board[insidex][insidey].empty.equals(currentTurn)) { 
+							System.out.println("bad");
+							pointsleftdown.clear();
+							break;
+						}
+						pointsleftdown.add(new Point(insidex, insidey));
 					}
 				}
 			}
