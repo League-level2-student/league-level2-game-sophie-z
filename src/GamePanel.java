@@ -36,7 +36,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 	ArrayList <Point> pointsrightdown = new ArrayList <Point>();
 	ArrayList <Point> pointsleftup = new ArrayList <Point>();
 	ArrayList <Point> pointsleftdown = new ArrayList <Point>();
-	boolean tail = false; //--> precheck whether there is a tail to the sandwich or not??
 	
 	public GamePanel() {
 		button = new JButton("CONTINUE");
@@ -91,6 +90,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			g.drawString("Player 1 (black) please click to place a piece.", 245, 30);
 		}
 		gb.draw(g);
+		resetBoard(g);
 	}
 	
 	void drawEndState(Graphics g) {
@@ -107,6 +107,12 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		timer.start();
 	}
 	
+	void resetBoard(Graphics g) { 
+		for(int x = 0, y = 0; x<gb.board.length && y<gb.board.length; x++, y++) {
+			gb.board[x][y].empty.equals("empty");
+		}
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
@@ -118,7 +124,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		else if (arg0.getSource() == button && currentState == GAME) {
 			currentState = END;
 			button.setText("PLAY AGAIN");
-			//NEED TO RESET BOARD HERE?
 		}
 		
 		else if (arg0.getSource() == button && currentState == END) {
@@ -335,10 +340,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		for(int row=i+1, collumn=j-1; row<gb.board.length && collumn>=0; row++, collumn--) {
 			if(row-i>=2 && j-collumn>=2) {
 				if(gb.board[row][collumn].empty.equals(currentTurn)) {
-					System.out.println("row: " + row + " collumn: " + collumn);
 					for(int insidex = row-1, insidey = collumn+1; insidex>=i+1 && insidey<=j-1; insidex--, insidey++) {
 						if(gb.board[insidex][insidey].empty.equals("empty") || gb.board[insidex][insidey].empty.equals(currentTurn)) { 
-							System.out.println("bad");
 							pointsleftdown.clear();
 							break;
 						}
