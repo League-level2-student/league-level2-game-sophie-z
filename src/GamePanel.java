@@ -36,6 +36,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 	ArrayList <Point> pointsrightdown = new ArrayList <Point>();
 	ArrayList <Point> pointsleftup = new ArrayList <Point>();
 	ArrayList <Point> pointsleftdown = new ArrayList <Point>();
+	int whiteNum = 0;
+	int blackNum = 0;
 	
 	public GamePanel() {
 		button = new JButton("CONTINUE");
@@ -90,7 +92,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			g.drawString("Player 1 (black) please click to place a piece.", 245, 30);
 		}
 		gb.draw(g);
-		resetBoard(g);
 	}
 	
 	void drawEndState(Graphics g) {
@@ -101,13 +102,14 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		g.drawString("GAME OVER", 220, 200);
 		g.setFont(getFont());
 		g.drawString("Press PLAY AGAIN to start another round", 250, 250);
+		resetBoard();
 	}
 
 	void startGame() {
 		timer.start();
 	}
 	
-	void resetBoard(Graphics g) { 
+	void resetBoard() { 
 		for(int x = 0, y = 0; x<gb.board.length && y<gb.board.length; x++, y++) {
 			gb.board[x][y].empty.equals("empty");
 		}
@@ -302,6 +304,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 						}
 						pointsrightup.add(new Point(insidex, insidey));
 					}
+					break;
 				}
 			}
 		}
@@ -317,6 +320,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 						}
 						pointsrightdown.add(new Point(insidex, insidey));
 					}
+					break;
 				}
 			}
 		}
@@ -332,6 +336,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 						}
 						pointsleftup.add(new Point(insidex, insidey));
 					}
+					break;
 				}
 			}
 		}
@@ -347,6 +352,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 						}
 						pointsleftdown.add(new Point(insidex, insidey));
 					}
+					break;
 				}
 			}
 		}
@@ -443,6 +449,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 //			}
 //		}
 //		}
+		
+		
 		
 		ArrayList <ArrayList<Point>> points = new ArrayList();
 		points.add(pointsleft);

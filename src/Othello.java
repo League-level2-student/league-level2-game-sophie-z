@@ -7,8 +7,8 @@ public class Othello {
 
 	static JFrame frame;
 	GamePanel gamepanel;
-	public static final int WIDTH = 700;
-	public static final int HEIGHT = 700;
+	public static final int WIDTH = 715;
+	public static final int HEIGHT = 691;
 	
 	public Othello() {
 		this.frame = new JFrame();
