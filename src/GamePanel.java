@@ -114,12 +114,12 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		if(whiteNum>blackNum) {
 			g.setColor(Color.WHITE);
 			g.setFont(getFont());
-			g.drawString("White player won!", 350, 250);
+			g.drawString("White player won!", 300, 250);
 		}
 		else if(whiteNum<blackNum) {	
 			g.setColor(Color.WHITE);
 			g.setFont(getFont());
-			g.drawString("Black player won!", 350, 250);
+			g.drawString("Black player won!", 300, 250);
 			}
 		else if(whiteNum==blackNum) {
 			g.setColor(Color.WHITE);
@@ -224,6 +224,10 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			}
 			gb.board[x][y].empty = "empty";
 		}
+		gb.board[3][3].empty = "white";
+		gb.board[4][3].empty = "black";
+		gb.board[3][4].empty = "black";
+		gb.board[4][4].empty = "white";
 		System.out.println("whiteNum = " + whiteNum + " blackNum = " + blackNum);
 	}
 	
@@ -286,6 +290,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 						if(gb.board[inside][j].empty.equals("empty") || gb.board[inside][j].empty.equals(currentTurn)) { //checking if ALL the pieces in the sandwich are not the same color or empty and if they are it's not a valid play
 							pointsleft.clear();
 							leftPlaysLeft = false;
+							System.out.println("leftPlaysLeft " + leftPlaysLeft);
 							break;
 						}
 						pointsleft.add(new Point(inside, j));
@@ -320,6 +325,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 						if(gb.board[inside][j].empty.equals("empty") || gb.board[inside][j].empty.equals(currentTurn)) { 
 							pointsright.clear();
 							rightPlaysLeft = false;
+							System.out.println("rightPlaysLeft " + rightPlaysLeft);
 							break;
 						}
 						pointsright.add(new Point(inside, j));
@@ -352,6 +358,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 						if(gb.board[i][inside].empty.equals("empty") || gb.board[i][inside].empty.equals(currentTurn)) { 
 							pointsdown.clear();
 							downPlaysLeft = false;
+							System.out.println("downPlaysLeft " + downPlaysLeft);
 							break;
 						}
 						pointsdown.add(new Point(i, inside));
@@ -385,6 +392,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 						if(gb.board[i][inside].empty.equals("empty") || gb.board[i][inside].empty.equals(currentTurn)) { 
 							pointsup.clear();
 							upPlaysLeft = false;
+							System.out.println("upPlaysLeft " + upPlaysLeft);
 							break;
 						}
 						pointsup.add(new Point(i, inside));
@@ -417,6 +425,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 						if(gb.board[insidex][insidey].empty.equals("empty") || gb.board[insidex][insidey].empty.equals(currentTurn)) { 
 							pointsrightup.clear();
 							rightupPlaysLeft = false;
+							System.out.println("rightupPlaysLeft " + rightupPlaysLeft);
 							break;
 						}
 						pointsrightup.add(new Point(insidex, insidey));
@@ -434,6 +443,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 						if(gb.board[insidex][insidey].empty.equals("empty") || gb.board[insidex][insidey].empty.equals(currentTurn)) { 
 							pointsrightdown.clear();
 							rightdownPlaysLeft = false;
+							System.out.println("rightdownPlaysLeft " + rightdownPlaysLeft);
 							break;
 						}
 						pointsrightdown.add(new Point(insidex, insidey));
@@ -451,6 +461,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 						if(gb.board[insidex][insidey].empty.equals("empty") || gb.board[insidex][insidey].empty.equals(currentTurn)) { 
 							pointsleftup.clear();
 							leftupPlaysLeft = false;
+							System.out.println("leftupPlaysLeft " + leftupPlaysLeft);
 							break;
 						}
 						pointsleftup.add(new Point(insidex, insidey));
@@ -468,6 +479,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 						if(gb.board[insidex][insidey].empty.equals("empty") || gb.board[insidex][insidey].empty.equals(currentTurn)) { 
 							pointsleftdown.clear();
 							leftdownPlaysLeft = false;
+							System.out.println("leftdownPlaysLeft " + leftdownPlaysLeft);
 							break;
 						}
 						pointsleftdown.add(new Point(insidex, insidey));
@@ -477,24 +489,13 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			}
 		}
 		
-		if(leftPlaysLeft==false&&rightPlaysLeft==false&&upPlaysLeft==false&&downPlaysLeft&&rightupPlaysLeft==false&&rightdownPlaysLeft==false&&leftupPlaysLeft==false&&leftdownPlaysLeft==false) {
-			System.out.println("FALSE");
+		if(!leftPlaysLeft&&!rightPlaysLeft&&
+				!upPlaysLeft&&!downPlaysLeft&&
+				!rightupPlaysLeft&&!rightdownPlaysLeft
+				&&!leftupPlaysLeft&&!leftdownPlaysLeft) {
 			JOptionPane.showMessageDialog(null, "No valid plays left for " + currentTurn + " player.");
-			if(currentTurn.equals("white")) {
-				currentTurn = "black";
-			}
-			if(currentTurn.equals("black")) {
-				currentTurn = "white";
-			}
+			currentState = END;
 		}
-		System.out.println(leftPlaysLeft);
-		System.out.println(rightPlaysLeft);
-		System.out.println(upPlaysLeft);
-		System.out.println(downPlaysLeft);
-		System.out.println(rightupPlaysLeft);
-		System.out.println(rightdownPlaysLeft);
-		System.out.println(leftupPlaysLeft);
-		System.out.println(leftdownPlaysLeft);
 		
 //		//pointsrightup
 //		boolean edge = false;
