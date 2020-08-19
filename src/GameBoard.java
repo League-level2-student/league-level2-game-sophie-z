@@ -13,10 +13,10 @@ public class GameBoard {
 			}
 		}
 		
-		board[3][3].empty = "white";
+		board[3][3].empty = "black";
 		board[4][3].empty = "black";
 		board[3][4].empty = "black";
-		board[4][4].empty = "white";
+		board[4][4].empty = "black";
 	}
 	
 	void draw(Graphics g) {

@@ -12,6 +12,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
@@ -38,6 +39,14 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 	ArrayList <Point> pointsleftdown = new ArrayList <Point>();
 	int whiteNum = 0;
 	int blackNum = 0;
+	boolean leftPlaysLeft;
+	boolean rightPlaysLeft;
+	boolean upPlaysLeft;
+	boolean downPlaysLeft;
+	boolean rightupPlaysLeft;
+	boolean rightdownPlaysLeft;
+	boolean leftupPlaysLeft;
+	boolean leftdownPlaysLeft;
 	
 	public GamePanel() {
 		button = new JButton("CONTINUE");
@@ -101,7 +110,22 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		g.setFont(titleFont);
 		g.drawString("GAME OVER", 220, 200);
 		g.setFont(getFont());
-		g.drawString("Press PLAY AGAIN to start another round", 250, 250);
+		g.drawString("Press PLAY AGAIN to start another round", 250, 280);
+		if(whiteNum>blackNum) {
+			g.setColor(Color.WHITE);
+			g.setFont(getFont());
+			g.drawString("White player won!", 350, 250);
+		}
+		else if(whiteNum<blackNum) {	
+			g.setColor(Color.WHITE);
+			g.setFont(getFont());
+			g.drawString("Black player won!", 350, 250);
+			}
+		else if(whiteNum==blackNum) {
+			g.setColor(Color.WHITE);
+			g.setFont(getFont());
+			g.drawString("White player and black player tied!", 260, 250);
+			}
 		resetBoard();
 	}
 
@@ -111,8 +135,96 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 	
 	void resetBoard() { 
 		for(int x = 0, y = 0; x<gb.board.length && y<gb.board.length; x++, y++) {
-			gb.board[x][y].empty.equals("empty");
+			if(gb.board[x][y].empty.equals("white")) {
+				whiteNum = whiteNum+1;
+			}
+			else if(gb.board[x][y].empty.equals("black")) {
+				blackNum = blackNum+1;
+			}
+			gb.board[x][y].empty = "empty";
 		}
+		for(int x = gb.board.length-1, y = 0; x>=0 && y<gb.board.length; x--, y++) {
+			if(gb.board[x][y].empty.equals("white")) {
+				whiteNum = whiteNum+1;
+			}
+			else if(gb.board[x][y].empty.equals("black")) {
+				blackNum = blackNum+1;
+			}
+			gb.board[x][y].empty = "empty";
+		}
+		for(int x = 0, y = 0; y<gb.board.length; y++) {
+			if(gb.board[x][y].empty.equals("white")) {
+				whiteNum = whiteNum+1;
+			}
+			else if(gb.board[x][y].empty.equals("black")) {
+				blackNum = blackNum+1;
+			}
+			gb.board[x][y].empty = "empty";
+		}
+		for(int x = 1, y = 0; y<gb.board.length; y++) {
+			if(gb.board[x][y].empty.equals("white")) {
+				whiteNum = whiteNum+1;
+			}
+			else if(gb.board[x][y].empty.equals("black")) {
+				blackNum = blackNum+1;
+			}
+			gb.board[x][y].empty = "empty";
+		}
+		for(int x = 2, y = 0; y<gb.board.length; y++) {
+			if(gb.board[x][y].empty.equals("white")) {
+				whiteNum = whiteNum+1;
+			}
+			else if(gb.board[x][y].empty.equals("black")) {
+				blackNum = blackNum+1;
+			}
+			gb.board[x][y].empty = "empty";
+		}
+		for(int x = 3, y = 0; y<gb.board.length; y++) {
+			if(gb.board[x][y].empty.equals("white")) {
+				whiteNum = whiteNum+1;
+			}
+			else if(gb.board[x][y].empty.equals("black")) {
+				blackNum = blackNum+1;
+			}
+			gb.board[x][y].empty = "empty";
+		}
+		for(int x = 4, y = 0; y<gb.board.length; y++) {
+			if(gb.board[x][y].empty.equals("white")) {
+				whiteNum = whiteNum+1;
+			}
+			else if(gb.board[x][y].empty.equals("black")) {
+				blackNum = blackNum+1;
+			}
+			gb.board[x][y].empty = "empty";
+		}
+		for(int x = 5, y = 0; y<gb.board.length; y++) {
+			if(gb.board[x][y].empty.equals("white")) {
+				whiteNum = whiteNum+1;
+			}
+			else if(gb.board[x][y].empty.equals("black")) {
+				blackNum = blackNum+1;
+			}
+			gb.board[x][y].empty = "empty";
+		}
+		for(int x = 6, y = 0; y<gb.board.length; y++) {
+			if(gb.board[x][y].empty.equals("white")) {
+				whiteNum = whiteNum+1;
+			}
+			else if(gb.board[x][y].empty.equals("black")) {
+				blackNum = blackNum+1;
+			}
+			gb.board[x][y].empty = "empty";
+		}
+		for(int x = 7, y = 0; y<gb.board.length; y++) {
+			if(gb.board[x][y].empty.equals("white")) {
+				whiteNum = whiteNum+1;
+			}
+			else if(gb.board[x][y].empty.equals("black")) {
+				blackNum = blackNum+1;
+			}
+			gb.board[x][y].empty = "empty";
+		}
+		System.out.println("whiteNum = " + whiteNum + " blackNum = " + blackNum);
 	}
 	
 	@Override
@@ -167,12 +279,13 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		pointsleftdown.clear();
 		
 		//pointsleft --> placing a piece on the left checking pieces to the right
-		for(int c = i+1; c<gb.board.length; c++) { //piece placed = i,j so basically checking i++
-			if(c-i>=2) { //checking that the tail piece is not right next to the piece put down; at least one piece in between
+		for(int c = i+1; c<gb.board.length; c++) { //piece placed = i,j so basically checking i++ -->
+			if(c-i>=2 && gb.board[i][j].empty.equals("empty")) { //checking that the tail piece is not right next to the piece put down; at least one piece in between
 				if(gb.board[c][j].empty.equals(currentTurn)) { //checking if there is a tail to the sandwich
 					for(int inside = c-1; inside>=i+1; inside--) { //INSIDE MUST STOP AT FIRST TAIL
 						if(gb.board[inside][j].empty.equals("empty") || gb.board[inside][j].empty.equals(currentTurn)) { //checking if ALL the pieces in the sandwich are not the same color or empty and if they are it's not a valid play
 							pointsleft.clear();
+							leftPlaysLeft = false;
 							break;
 						}
 						pointsleft.add(new Point(inside, j));
@@ -201,11 +314,12 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		
 		//pointsright --> placing a piece on the right checking pieces to the left
 		for(int c = i-1; c>=0; c--) {
-			if(i-c>=2) {
+			if(i-c>=2 && gb.board[i][j].empty.equals("empty")) {
 				if(gb.board[c][j].empty.equals(currentTurn)) {
 					for(int inside = c+1; inside<=i-1; inside++) {
 						if(gb.board[inside][j].empty.equals("empty") || gb.board[inside][j].empty.equals(currentTurn)) { 
 							pointsright.clear();
+							rightPlaysLeft = false;
 							break;
 						}
 						pointsright.add(new Point(inside, j));
@@ -232,11 +346,12 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 
 		//pointsdown --> placing a piece on the bottom checking pieces upwards
 		for(int c = j-1; c>=0; c--) {
-			if(j-c>=2) {
+			if(j-c>=2 && gb.board[i][j].empty.equals("empty")) {
 				if(gb.board[i][c].empty.equals(currentTurn)) {
 					for(int inside = c+1; inside<=j-1; inside++) {
 						if(gb.board[i][inside].empty.equals("empty") || gb.board[i][inside].empty.equals(currentTurn)) { 
 							pointsdown.clear();
+							downPlaysLeft = false;
 							break;
 						}
 						pointsdown.add(new Point(i, inside));
@@ -264,11 +379,12 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		
 		//pointsup --> placing a piece on the top checking pieces downward
 		for(int c = j+1; c<gb.board.length; c++) {
-			if(c-j>=2) {
+			if(c-j>=2 && gb.board[i][j].empty.equals("empty")) {
 				if(gb.board[i][c].empty.equals(currentTurn)) {
 					for(int inside = c-1; inside>=j+1; inside--) {
 						if(gb.board[i][inside].empty.equals("empty") || gb.board[i][inside].empty.equals(currentTurn)) { 
 							pointsup.clear();
+							upPlaysLeft = false;
 							break;
 						}
 						pointsup.add(new Point(i, inside));
@@ -295,11 +411,12 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		
 		//pointsrightup --> placing a piece diagonally to the top on the right and checking pieces diagonally to the bottom on the left
 		for(int row=i-1, collumn=j+1; row>=0 && collumn<gb.board.length; row--, collumn++) {
-			if(i-row>=2 && collumn-j>=2) {
+			if(i-row>=2 && collumn-j>=2 && gb.board[i][j].empty.equals("empty")) {
 				if(gb.board[row][collumn].empty.equals(currentTurn)) {
 					for(int insidex = row+1, insidey = collumn-1; insidex<=i-1 && insidey>=j+1; insidex++, insidey--) {
 						if(gb.board[insidex][insidey].empty.equals("empty") || gb.board[insidex][insidey].empty.equals(currentTurn)) { 
 							pointsrightup.clear();
+							rightupPlaysLeft = false;
 							break;
 						}
 						pointsrightup.add(new Point(insidex, insidey));
@@ -311,11 +428,12 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		
 		//pointsrightdown --> placing a piece diagonally to the bottom on the right and checking pieces diagonally to the top on the left
 		for(int row=i-1, collumn=j-1; row>=0 && collumn>=0; row--, collumn--) {
-			if(i-row>=2 && j-collumn>=2) {
+			if(i-row>=2 && j-collumn>=2 && gb.board[i][j].empty.equals("empty")) {
 				if(gb.board[row][collumn].empty.equals(currentTurn)) {
 					for(int insidex = row+1, insidey = collumn+1; insidex<=i-1 && insidey<=j-1; insidex++, insidey++) {
 						if(gb.board[insidex][insidey].empty.equals("empty") || gb.board[insidex][insidey].empty.equals(currentTurn)) { 
 							pointsrightdown.clear();
+							rightdownPlaysLeft = false;
 							break;
 						}
 						pointsrightdown.add(new Point(insidex, insidey));
@@ -327,11 +445,12 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		
 		//pointsleftup --> placing a piece diagonally to the top on the left and checking pieces diagonally to the bottom on the right
 		for(int row=i+1, collumn=j+1; row<gb.board.length && collumn<gb.board.length; row++, collumn++) {
-			if(row-i>=2 && collumn-j>=2) {
+			if(row-i>=2 && collumn-j>=2 && gb.board[i][j].empty.equals("empty")) {
 				if(gb.board[row][collumn].empty.equals(currentTurn)) {
 					for(int insidex = row-1, insidey = collumn-1; insidex>=i+1 && insidey>=j+1; insidex--, insidey--) {
 						if(gb.board[insidex][insidey].empty.equals("empty") || gb.board[insidex][insidey].empty.equals(currentTurn)) { 
 							pointsleftup.clear();
+							leftupPlaysLeft = false;
 							break;
 						}
 						pointsleftup.add(new Point(insidex, insidey));
@@ -343,11 +462,12 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		
 		//pointsleftdown --> placing a piece diagonally to the bottom on the left and checking pieces diagonally to the top on the right
 		for(int row=i+1, collumn=j-1; row<gb.board.length && collumn>=0; row++, collumn--) {
-			if(row-i>=2 && j-collumn>=2) {
+			if(row-i>=2 && j-collumn>=2 && gb.board[i][j].empty.equals("empty")) {
 				if(gb.board[row][collumn].empty.equals(currentTurn)) {
 					for(int insidex = row-1, insidey = collumn+1; insidex>=i+1 && insidey<=j-1; insidex--, insidey++) {
 						if(gb.board[insidex][insidey].empty.equals("empty") || gb.board[insidex][insidey].empty.equals(currentTurn)) { 
 							pointsleftdown.clear();
+							leftdownPlaysLeft = false;
 							break;
 						}
 						pointsleftdown.add(new Point(insidex, insidey));
@@ -356,6 +476,25 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 				}
 			}
 		}
+		
+		if(leftPlaysLeft==false&&rightPlaysLeft==false&&upPlaysLeft==false&&downPlaysLeft&&rightupPlaysLeft==false&&rightdownPlaysLeft==false&&leftupPlaysLeft==false&&leftdownPlaysLeft==false) {
+			System.out.println("FALSE");
+			JOptionPane.showMessageDialog(null, "No valid plays left for " + currentTurn + " player.");
+			if(currentTurn.equals("white")) {
+				currentTurn = "black";
+			}
+			if(currentTurn.equals("black")) {
+				currentTurn = "white";
+			}
+		}
+		System.out.println(leftPlaysLeft);
+		System.out.println(rightPlaysLeft);
+		System.out.println(upPlaysLeft);
+		System.out.println(downPlaysLeft);
+		System.out.println(rightupPlaysLeft);
+		System.out.println(rightdownPlaysLeft);
+		System.out.println(leftupPlaysLeft);
+		System.out.println(leftdownPlaysLeft);
 		
 //		//pointsrightup
 //		boolean edge = false;
@@ -449,7 +588,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 //			}
 //		}
 //		}
-		
 		
 		
 		ArrayList <ArrayList<Point>> points = new ArrayList();
