@@ -39,14 +39,14 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 	ArrayList <Point> pointsleftdown = new ArrayList <Point>();
 	int whiteNum = 0;
 	int blackNum = 0;
-	boolean leftPlaysLeft;
-	boolean rightPlaysLeft;
-	boolean upPlaysLeft;
-	boolean downPlaysLeft;
-	boolean rightupPlaysLeft;
-	boolean rightdownPlaysLeft;
-	boolean leftupPlaysLeft;
-	boolean leftdownPlaysLeft;
+	boolean leftPlaysLeft = true;
+	boolean rightPlaysLeft = true;
+	boolean upPlaysLeft = true;
+	boolean downPlaysLeft = true;
+	boolean rightupPlaysLeft = true;
+	boolean rightdownPlaysLeft = true;
+	boolean leftupPlaysLeft = true;
+	boolean leftdownPlaysLeft = true;
 	
 	public GamePanel() {
 		button = new JButton("CONTINUE");
@@ -223,6 +223,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 				blackNum = blackNum+1;
 			}
 			gb.board[x][y].empty = "empty";
+			currentTurn = "black";
 		}
 		gb.board[3][3].empty = "white";
 		gb.board[4][3].empty = "black";
@@ -290,7 +291,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 						if(gb.board[inside][j].empty.equals("empty") || gb.board[inside][j].empty.equals(currentTurn)) { //checking if ALL the pieces in the sandwich are not the same color or empty and if they are it's not a valid play
 							pointsleft.clear();
 							leftPlaysLeft = false;
-							System.out.println("leftPlaysLeft " + leftPlaysLeft);
+							System.out.println("leftPlaysLeft 2 " + leftPlaysLeft);
 							break;
 						}
 						pointsleft.add(new Point(inside, j));
@@ -489,14 +490,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			}
 		}
 		
-		if(!leftPlaysLeft&&!rightPlaysLeft&&
-				!upPlaysLeft&&!downPlaysLeft&&
-				!rightupPlaysLeft&&!rightdownPlaysLeft
-				&&!leftupPlaysLeft&&!leftdownPlaysLeft) {
-			JOptionPane.showMessageDialog(null, "No valid plays left for " + currentTurn + " player.");
-			currentState = END;
-		}
-		
 //		//pointsrightup
 //		boolean edge = false;
 //		int collumn = i+1;
@@ -650,6 +643,10 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		else if(currentTurn.equals("black") && gb.board[i][j].empty.equals("empty") && check) {
 			gb.board[i][j].setStatus("black");
 			currentTurn = "white";
+		}
+		if(!leftPlaysLeft&&!rightPlaysLeft&&!upPlaysLeft&&!downPlaysLeft&&!rightupPlaysLeft&&!rightdownPlaysLeft&&!leftupPlaysLeft&&!leftdownPlaysLeft) {
+			JOptionPane.showMessageDialog(null, "No valid plays left for " + currentTurn + " player.");
+			currentState = END;
 		}
 	}
 	
