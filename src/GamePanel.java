@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URI;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -25,7 +26,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
     int currentState = MENU;
     Font titleFont;
 	JButton button;
-	Timer timer;
+	JButton instructionsbutton;
+	//Timer timer;
 	GameBoard gb;
 	String currentTurn;
 	Player player;
@@ -51,12 +53,15 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 	public GamePanel() {
 		button = new JButton("CONTINUE");
 		button.addActionListener(this);
+		instructionsbutton = new JButton ("INSTRUCTIONS");
+		instructionsbutton.addActionListener(this);
 		titleFont = new Font("Arial", Font.PLAIN, 50);
-		timer = new Timer(1000/60, this);
+		//timer = new Timer(1000/60, this);
 		this.setLayout(new BorderLayout());
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panel.add(button);
+		panel.add(instructionsbutton);
 		Othello.frame.addMouseListener(this);
 		this.add(panel, BorderLayout.SOUTH);
 		startGame();
@@ -86,6 +91,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		g.drawString("OTHELLO", 235, 200);
 		g.setFont(getFont());
 		g.drawString("Press CONTINUE to start", 272, 250);
+		whiteNum = 0;
+		blackNum = 0;
 	}
 	
 	void drawGameState(Graphics g) {
@@ -130,7 +137,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 	}
 
 	void startGame() {
-		timer.start();
+		//timer.start();
 	}
 	
 	void resetBoard() { 
@@ -223,8 +230,16 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 				blackNum = blackNum+1;
 			}
 			gb.board[x][y].empty = "empty";
-			currentTurn = "black";
 		}
+		leftPlaysLeft = true;
+		rightPlaysLeft = true;
+		upPlaysLeft = true;
+		downPlaysLeft = true;
+		rightupPlaysLeft = true;
+		rightdownPlaysLeft = true;
+		leftupPlaysLeft = true;
+		leftdownPlaysLeft = true;
+		currentTurn = "black";
 		gb.board[3][3].empty = "white";
 		gb.board[4][3].empty = "black";
 		gb.board[3][4].empty = "black";
@@ -250,9 +265,27 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			button.setText("CONTINUE");
 		}
 		
-		if(arg0.getSource() == timer) {
-			repaint();
+		if(arg0.getSource() == instructionsbutton) {
+			JOptionPane.showMessageDialog(null, "Objective: get the majority of pieces on the board at the end of the game. The game goes back and forth between white and black until:\r\n" + 
+					"\r\n" + 
+					"- one player can not make a valid move to outflank the opponent.\r\n" + 
+					"- both players have no valid moves.\r\n" + 
+					"\r\n" + 
+					"When a player has no valid moves, he/she pass his/her turn and the opponent continues.\r\n" + 
+					"A player can not forfeit his/her turn unless there are no valid moves.\r\n" + 
+					"When both players have no more valid moves, the game ends. \r\n" + 
+					"\r\n" +
+					"How the game works: A move is made by placing a disc of the player's color on the board in a position that \"out-flanks\" one or more of the opponent's discs." + 
+					"\r\n" + 
+					"A disc or row of discs is outflanked when it is surrounded at the ends by discs of the opposite color in any direction (left, right, up, down, and all four diagonals) \r\n"
+					+ "\r\n" + "Check out this website for a more detailed explanation: \r\n"
+					+ "https://www.mastersofgames.com/rules/reversi-othello-rules.htm");
 		}
+		
+		//if(arg0.getSource() == timer) {
+		//	repaint();
+		//}
+		repaint();
 	}
 
 	@Override
@@ -645,8 +678,13 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			currentTurn = "white";
 		}
 		if(!leftPlaysLeft&&!rightPlaysLeft&&!upPlaysLeft&&!downPlaysLeft&&!rightupPlaysLeft&&!rightdownPlaysLeft&&!leftupPlaysLeft&&!leftdownPlaysLeft) {
-			JOptionPane.showMessageDialog(null, "No valid plays left for " + currentTurn + " player.");
-			currentState = END;
+			JOptionPane.showMessageDialog(null, "No valid plays left for " + currentTurn + " player. Forfeiting turn.");
+			if(currentTurn.equals("white")) {
+				currentTurn = "black";
+			}
+			if(currentTurn.equals("black")) {
+				currentTurn = "white";
+			}
 		}
 	}
 	
@@ -658,6 +696,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		System.out.println("i:" + i);
 		System.out.println("j:" + j);
 		placePiece(i, j);
+		repaint();
 	}
 
 	@Override
@@ -665,4 +704,13 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
+	static void instructions(String videoURL) {
+		try {
+			URI uri = new URI(videoURL);
+			java.awt.Desktop.getDesktop().browse(uri);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }
