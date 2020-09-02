@@ -278,7 +278,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 					"How the game works: A move is made by placing a disc of the player's color on the board in a position that \"out-flanks\" one or more of the opponent's discs." + 
 					"\r\n" + 
 					"A disc or row of discs is outflanked when it is surrounded at the ends by discs of the opposite color in any direction (left, right, up, down, and all four diagonals) \r\n"
-					+ "\r\n" + "Check out this website for a more detailed explanation: \r\n"
+					+ "\r\n" + "Check out this website for a more detailed explantion or look up how to play othello: \r\n"
 					+ "https://www.mastersofgames.com/rules/reversi-othello-rules.htm");
 		}
 		
@@ -682,9 +682,17 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
 			if(currentTurn.equals("white")) {
 				currentTurn = "black";
 			}
-			if(currentTurn.equals("black")) {
+			else if(currentTurn.equals("black")) {
 				currentTurn = "white";
 			}
+			leftPlaysLeft=true;
+			rightPlaysLeft=true;
+			upPlaysLeft=true;
+			downPlaysLeft=true;
+			rightupPlaysLeft=true;
+			leftupPlaysLeft=true;
+			rightdownPlaysLeft=true;
+			leftdownPlaysLeft=true;
 		}
 	}
 	
